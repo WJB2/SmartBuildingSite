@@ -1,0 +1,10 @@
+rootProject.name = 'SmartBuildingSite'
+
+include 'application-starter'
+
+include 'building-site-api'
+include 'building-site-core'
+
+include 'wechat-api'
+include 'wechat-core'
+

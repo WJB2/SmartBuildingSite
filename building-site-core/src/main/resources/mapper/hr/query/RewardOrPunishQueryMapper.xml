@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.hr.dao.query.RewardOrPunishQuery">
+
+    <resultMap id="rewardOrPunishDtoPart" type="com.hozensoft.smartsite.hr.dto.RewardOrPunishDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="name" column="name"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="approved" column="approved"/>
+        <result property="auditById" column="audit_by_id"/>
+        <result property="auditOrgId" column="audit_org_id"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="auditRemark" column="audit_remark"/>
+    </resultMap>
+
+    <resultMap id="rewardOrPunishItemDtoPart" type="com.hozensoft.smartsite.hr.dto.RewardOrPunishItemDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="name" column="name"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="approved" column="approved"/>
+        <result property="auditById" column="audit_by_id"/>
+        <result property="auditOrgId" column="audit_org_id"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="auditRemark" column="audit_remark"/>
+    </resultMap>
+
+    <sql id="selectRewardOrPunishDtoPart">
+        select rop.id as id, rop.tenant_id as tenant_id, rop.building_developer_id as building_developer_id,
+        rop.type as type, rop.building_site_id as building_site_id, rop.name as name , rop.id_card_no as id_card_no,
+        rop.content as content, rop.created_by_id as created_by_id, rop.created_org_id as created_org_id,
+        rop.created_time as created_time, rop.approved as approved, rop.audit_by_id as audit_by_id,
+        rop.audit_org_id as audit_org_id, rop.audit_org_id as audit_org_id,rop.audit_time as audit_time, rop.audit_remark as audit_remark
+        from sbm_reward_or_punish as rop
+    </sql>
+
+    <sql id="selectRewardOrPunishItemDtoPart">
+        select rop.id as id, rop.tenant_id as tenant_id, rop.building_developer_id as building_developer_id,
+        rop.type as type, rop.building_site_id as building_site_id, rop.name as name , rop.id_card_no as id_card_no,
+        rop.content as content, rop.created_by_id as created_by_id, rop.created_org_id as created_org_id,
+        rop.created_time as created_time, rop.approved as approved, rop.audit_by_id as audit_by_id,
+        rop.audit_org_id as audit_org_id, rop.audit_org_id as audit_org_id,rop.audit_time as audit_time, rop.audit_remark as audit_remark
+        from sbm_reward_or_punish as rop
+    </sql>
+
+    <sql id="whereClause">
+        <where>
+            <if test="id != null and id.size()>0">
+                and rop.id in
+                <foreach collection="id" item="i" open="("  close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="tenantId != null">
+                and rop.tenant_id = #{tenantId}
+            </if>
+            <if test="buildingDeveloperId !=null and buildingDeveloperId.size()>0">
+                and rop.building_developer_id in
+                <foreach collection="buildingDeveloperId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingSiteId !=null and buildingSiteId.size()>0">
+                and rop.building_site_id in
+                <foreach collection="buildingSiteId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="type !=null">
+                and rop.type = #{type, jdbcType=NUMERIC}
+            </if>
+            <if test="name !=null and name!=''">
+                and rop.name like '%'||#{name}||'%'
+            </if>
+            <if test="idCardNo !=null">
+                and rop.id_card_no = '%'||#{idCardNo}||'%'
+            </if>
+            <if test="content !=null">
+                and rop.content = #{content}
+            </if>
+            <if test="createdById !=null and createdById.size()>0">
+                and rop.created_by_id in
+                <foreach collection="createdById" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="createdOrgId !=null and createdOrgId.size()>0">
+                and rop.created_org_id in
+                <foreach collection="createdOrgId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="approved !=null">
+                and rop.approved = #{approved, jdbcType=NUMERIC}
+            </if>
+            <if test="auditById != null and auditById.size()>0">
+                and rop.audit_by_id in
+                <foreach collection="auditById" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="auditOrgId != null and auditOrgId.size()>0">
+                and rop.audit_org_id in
+                <foreach collection="auditOrgId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="auditTime != null and auditTime.size()>0">
+                and rop.audit_time in
+                <foreach collection="auditTime" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="auditRemark !=null">
+                and rop.audit_remark = #{auditRemark}
+            </if>
+            <if test="unauditedOnly!=null and unauditedOnly">
+                and rop.approved is null
+            </if>
+            <if test="auditedOnly!=null and auditedOnly">
+                and rop.approved is not null
+            </if>
+        </where>
+    </sql>
+
+    <select id="findRewardOrPunishById" resultMap="rewardOrPunishDtoPart">
+        <include refid="selectRewardOrPunishDtoPart"></include>
+        where rop.id = #{rewardOrPunishId} and rop.tenant_id = #{tenantId}
+    </select>
+
+    <select id="findRewardOrPunishList" resultMap="rewardOrPunishItemDtoPart">
+        <include refid="selectRewardOrPunishItemDtoPart"></include>
+        <include refid="whereClause"/>
+    </select>
+
+</mapper>

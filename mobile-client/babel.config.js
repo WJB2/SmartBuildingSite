@@ -1,0 +1,12 @@
+//在编译过程中将import的写法自动转换为按需引入的方式
+module.exports={
+    plugins:[
+        [
+            'import',{
+                libraryName:'vant',
+                libraryDirectory:'es',
+                style:true
+            },'vant'
+        ]
+    ]
+}

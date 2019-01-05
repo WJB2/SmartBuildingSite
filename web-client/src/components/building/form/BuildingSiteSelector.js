@@ -1,0 +1,34 @@
+import React, { PureComponent } from 'react';
+import { Select } from 'antd';
+
+import buildingSiteService from '../../../services/building/BuildingSiteService';
+
+const { Option } = Select;
+
+class BuildingSiteSelector extends PureComponent {
+  state = {
+    dataSource: [],
+  };
+
+  async componentWillMount() {
+    const { queryParams } = this.props;
+
+    const result = await buildingSiteService.findBuildingSiteList(queryParams ? queryParams :{});
+
+    this.setState({
+      dataSource: result,
+    });
+  }
+
+  render() {
+    return (
+      <Select {...this.props}>
+        {this.state.dataSource.map(item => {
+          return <Option key={item.id}>{item.name}</Option>;
+        })}
+      </Select>
+    );
+  }
+}
+
+export default BuildingSiteSelector;

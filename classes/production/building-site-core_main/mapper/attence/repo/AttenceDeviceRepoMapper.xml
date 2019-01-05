@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.attence.dao.repo.AttenceDeviceRepo">
+
+    <insert id="addAttenceDevice">
+        insert into sbm_attence_device(id, tenant_id, building_developer_id, building_site_id, sn, type,
+        remark, deleted_flag, created_by_id, created_org_id, created_time, updated_by_id, updated_org_id, updated_time,
+        deleted_by_id, deleted_org_id, deleted_time)
+        values(
+          #{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId}, #{sn}, #{type}, #{remark},
+          #{deletedFlag, jdbcType=NUMERIC}, #{createdById}, #{createdOrgId}, #{createdTime}, #{updatedById},
+          #{updatedOrgId}, #{updatedTime}, #{deletedById}, #{deletedOrgId}, #{deletedTime}
+        )
+    </insert>
+
+    <update id="editAttenceDevice">
+        update sbm_attence_device  set
+            id = #{id},
+            tenant_id = #{tenantId},
+            building_developer_id = #{buildingDeveloperId},
+            building_site_id = #{buildingSiteId},
+            sn = #{sn},
+            type = #{type},
+            remark = #{remark},
+            deleted_flag = #{deletedFlag, jdbcType=NUMERIC},
+            created_by_Id = #{createdById},
+            created_org_Id = #{createdOrgId},
+            created_time = #{createdTime},
+            updated_by_id = #{updatedById},
+            updated_org_id = #{updatedOrgId},
+            updated_time = #{updatedTime},
+            deleted_by_id = #{deletedById},
+            deleted_org_id = #{deletedOrgId},
+            deleted_time = #{deletedTime}
+        where id = #{id}
+    </update>
+
+    <update id="patchEditAttenceDevice">
+        update sbm_attence_device
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="buildingDeveloperId != null">
+                building_developer_id = #{buildingDeveloperId},
+            </if>
+            <if test="buildingSiteId != null">
+                building_site_id = #{buildingSiteId},
+            </if>
+            <if test="sn != null">
+                sn = #{sn},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="deletedFlag != null">
+                deleted_flag = #{deletedFlag, jdbcType=NUMERIC},
+            </if>
+            <if test="createdById != null">
+                created_by_Id = #{createdById},
+            </if>
+            <if test="createdOrgId != null">
+                created_org_Id = #{createdOrgId},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedOrgId != null">
+                updated_org_id = #{updatedOrgId},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+            <if test="deletedById != null">
+                deleted_by_id = #{deletedById},
+            </if>
+            <if test="deletedOrgId != null">
+                deleted_org_id = #{deletedOrgId},
+            </if>
+            <if test="deletedTime != null">
+                deleted_time = #{deletedTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteAttenceDeviceById">
+        delete from sbm_attence_device where id = #{attenceDeviceId} and tenant_id=#{tenantId}
+    </delete>
+
+    <resultMap id="attenceDeviceMap" type="com.hozensoft.smartsite.attence.domain.AttenceDevice">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="sn" column="sn"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <select id="loadAttenceDeviceById" resultMap="attenceDeviceMap">
+        select dev.id, dev.tenant_id, dev.building_developer_id, dev.building_site_id, dev.sn, dev.type,
+        dev.remark, dev.deleted_flag, dev.created_by_id,
+        dev.created_org_id, dev.created_time, dev.updated_by_id, dev.updated_org_id, dev.updated_time,
+        dev.deleted_by_id, dev.deleted_org_id, dev.deleted_time
+        from sbm_attence_device dev where dev.id = #{attenceDeviceId}
+    </select>
+
+    <select id="loadAttenceDeviceBySn" resultMap="attenceDeviceMap">
+        select dev.id, dev.tenant_id, dev.building_developer_id, dev.building_site_id, dev.sn, dev.type,
+        dev.remark, dev.deleted_flag, dev.created_by_id,
+        dev.created_org_id, dev.created_time, dev.updated_by_id, dev.updated_org_id, dev.updated_time,
+        dev.deleted_by_id, dev.deleted_org_id, dev.deleted_time
+        from sbm_attence_device dev where dev.sn = #{attenceDeviceSn}
+    </select>
+
+</mapper>

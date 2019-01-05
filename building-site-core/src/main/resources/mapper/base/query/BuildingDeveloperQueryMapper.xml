@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.base.dao.query.BuildingDeveloperQuery">
+
+    <resultMap id="buildingDeveloperDtoPart" type="com.hozensoft.smartsite.base.dto.BuildingDeveloperDto">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="orgId" column="org_id" />
+        <result property="creditCode" column="credit_code" />
+        <result property="name" column="name" />
+        <result property="namePinyin" column="name_pinyin" />
+        <result property="corporation" column="corporation" />
+        <result property="corporationMobile" column="corporation_mobile" />
+        <result property="adminStaffId" column="admin_staff_id" />
+        <result property="telephone" column="telephone" />
+        <result property="fax" column="fax" />
+        <result property="address" column="address" />
+        <result property="bankNo" column="bank_no" />
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <resultMap id="buildingDeveloperItemDtoPart" type="com.hozensoft.smartsite.base.dto.BuildingDeveloperItemDto">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="orgId" column="org_id" />
+        <result property="creditCode" column="credit_code" />
+        <result property="name" column="name" />
+        <result property="namePinyin" column="ame_pinyin" />
+        <result property="corporation" column="corporation" />
+        <result property="corporationMobile" column="corporation_mobile" />
+        <result property="adminStaffId" column="admin_staff_id" />
+        <result property="telephone" column="telephone" />
+        <result property="fax" column="fax" />
+        <result property="address" column="address" />
+        <result property="bankNo" column="bank_no" />
+        <result property="deletedFlag" column="deleted_flag" />
+        <association property="adminStaff" column="admin_staff_id" javaType="com.hozensoft.system.core.dto.StaffAttrDto">
+            <id property="id" column="admin_staff_id" />
+            <result property="name" column="admin_staff_name" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="username" column="username" />
+        </association>
+    </resultMap>
+
+    <sql id="selectBuildingDeveloperDtoPart">
+      select dev.id as id, dev.tenant_id as tenant_id, dev.org_id as org_id, dev.credit_code as credit_code, dev.name as name,
+      dev.name_pinyin as name_pinyin, dev.corporation as corporation, dev.corporation_mobile as corporation_mobile,
+      dev.admin_staff_id as admin_staff_id, dev.telephone as telephone, dev.fax as fax, dev.address as address, dev.bank_no as bank_no,
+      dev.deleted_flag as deleted_flag, dev.created_by_id as created_by_id, dev.created_org_id as created_org_id,
+      dev.created_time as created_time, dev.updated_by_id as updated_by_id, dev.updated_org_id as updated_org_id,
+      dev.updated_time as updated_time, dev.deleted_by_id as deleted_by_id, dev.deleted_org_id as deleted_org_id,
+      dev.deleted_time as deleted_time
+      from sbm_building_developer as dev
+    </sql>
+
+    <sql id="selectBuildingDeveloperItemDtoPart">
+        select dev.id as id, dev.tenant_id as tenant_id, dev.org_id as org_id, dev.credit_code as credit_code, dev.name as name,
+      dev.name_pinyin as name_pinyin, dev.corporation as corporation, dev.corporation_mobile as corporation_mobile,
+      dev.admin_staff_id as admin_staff_id, dev.telephone as telephone, dev.fax as fax, dev.address as address, dev.bank_no as bank_no,
+      dev.deleted_flag as deleted_flag, admin.name as admin_staff_name, admin.username as admin_staff_username
+          from sbm_building_developer as dev inner join sys_staff as admin on dev.admin_staff_id=admin.id
+    </sql>
+    
+    <sql id="whereClause">
+        <where>
+            <if test="tenantId !=null">
+                dev.tenant_id = #{tenantId}
+            </if>
+            <if test="buildingDeveloperText!=null and buildingDeveloperText!=''">
+                and dev.name like '%'||#{buildingDeveloperText}||'%'
+            </if>
+            <if test="deletedFlag!=null">
+                and dev.deleted_flag = #{deletedFlag,jdbcType=NUMERIC}
+            </if>
+            <if test="authorizedOrgId!=null and authorizedOrgId.size()>0">
+                <foreach collection="authorizedOrgId" item="i" open=" and dev.org_id in (" separator="," close=")">
+                    #{i}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="findBuildingDeveloperById" resultMap="buildingDeveloperDtoPart">
+        <include refid="selectBuildingDeveloperDtoPart" />
+        where id = #{buildingDeveloperId}
+    </select>
+
+    <select id="findBuildingDeveloperList" resultMap="buildingDeveloperItemDtoPart">
+        <include refid="selectBuildingDeveloperItemDtoPart" />
+        <include refid="whereClause" />
+        order by dev.deleted_flag asc, dev.name asc
+    </select>
+</mapper>

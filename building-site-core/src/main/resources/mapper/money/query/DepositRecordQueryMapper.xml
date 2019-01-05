@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.money.dao.query.DepositRecordQuery">
+
+    <resultMap id="DepositRecordItemDtoMap" type="com.hozensoft.smartsite.money.dto.DepositRecordItemDto">
+        <id  property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="depositType" column="deposit_type"/>
+        <result property="depositType" column="deposit_type"/>
+        <result property="outCredenceId" column="out_credence_id"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="initDeposit" column="init_deposit" />
+        <result property="deposit" column="deposit"/>
+        <result property="remark" column="remark"/>
+        <result property="deletedFlag" column="deleted_flag"/>
+        <result property="createdTime" column="created_time" />
+    </resultMap>
+
+    <sql id="selectDepositRecordItemDtoMap">
+        select sdr.id as id, sdr.tenant_id as tenant_id, sdr.building_developer_id as building_developer_id,
+        sdr.deposit_type as deposit_type, sdr.out_credence_id as out_credence_id, sdr.bank_card_no as bank_card_no,
+        sdr.deposit as deposit, sdr.remark as remark, sdr.deleted_flag as deleted_flag, init_deposit, created_time
+        from sbm_deposit_record  as sdr
+    </sql>
+
+    <sql id="whereClause">
+        <where>
+            sdr.tenant_id = #{tenantId}
+            <if test="id != null and id.size()>0">
+                and sdr.id in
+                <foreach collection="id" item="i" open="("  close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingDeveloperId !=null and buildingDeveloperId.size()>0">
+                and sdr.building_developer_id in
+                <foreach collection="buildingDeveloperId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="outCredenceId != null and outCredenceId.size()>0">
+                and sdr.out_credence_id in
+                <foreach collection="outCredenceId" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="bankCardNo !=null">
+                and sdr.bank_card_no = #{bankCardNo}
+            </if>
+        </where>
+    </sql>
+
+
+
+    <select id="findDepositRecordList" resultMap="DepositRecordItemDtoMap">
+        <include refid="selectDepositRecordItemDtoMap"/>
+        <include refid="whereClause"/>
+        order by created_time desc
+    </select>
+</mapper>

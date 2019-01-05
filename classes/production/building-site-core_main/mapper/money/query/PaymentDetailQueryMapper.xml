@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.money.dao.query.PaymentDetailQuery">
+
+    <resultMap id="payementDetailItemDtoMap" type="com.hozensoft.smartsite.money.dto.PaymentDetailItemDto">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="buildingDeveloperId" column="building_developer_id" />
+        <result property="buildingSiteId" column="building_site_id" />
+        <result property="name" column="name" />
+        <result property="idCardNo" column="id_card_no" />
+        <result property="yearMonth" column="year_month" />
+        <result property="beginDate" column="begin_date" />
+        <result property="endDate" column="end_date" />
+        <result property="bank" column="bank" />
+        <result property="bankNo" column="bank_no" />
+        <result property="workType" column="work_type" />
+        <result property="attenceDays" column="attence_days" />
+        <result property="money" column="money" />
+        <result property="status" column="status" />
+        <result property="remake" column="remake"/>
+        <result property="deletedFlag" column="deleted_flag"/>
+        <association property="buildingDeveloper" column="building_developer_id" javaType="com.hozensoft.system.core.dto.OrganizationAttrDto">
+            <id property="id" column="building_developer_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="org_name" />
+        </association>
+        <association property="buildingSite" column="building_site_id" javaType="com.hozensoft.smartsite.base.dto.BuildingSiteItemDto">
+            <id property="id" column="building_site_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="site_name" />
+        </association>
+    </resultMap>
+
+    <resultMap id="paymentReportCellDtoMap" type="com.hozensoft.smartsite.money.dto.PaymentReportCellDto">
+        <id property="buildingSiteId" column="building_site_id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="buildingDeveloperId" column="building_developer_id" />
+        <result property="yearMonth" column="year_month" />
+        <result property="grossSalary" column="gross_salary" />
+        <result property="paidSalary" column="paid_salary" />
+    </resultMap>
+
+    <sql id="selectPayementDetailItemDtoPart">
+      select pd.id as id, pd.tenant_id as tenant_id, pd.building_developer_id as building_developer_id,
+      pd.building_site_id as building_site_id, pd.name as name, pd.id_card_no as id_card_no, pd.bank as bank,
+      pd.bank_no as bank_no, pd.work_type as work_type, pd.attence_days as attence_days, pd.money as money,
+      pd.status as status, pd.remake as remake, org.name as org_name, site.name as site_name
+      from sbm_payment_detail pd
+      inner join sys_organization org on pd.building_developer_id=org.id
+      inner join sbm_building_site site on pd.building_site_id=site.id
+    </sql>
+
+    <select id="findPaymentDetailList" resultMap="payementDetailItemDtoMap">
+      <include refid="selectPayementDetailItemDtoPart" />
+      <where>
+          pd.tenant_id = #{tenantId}
+          <if test="buildingDeveloperId !=null and buildingDeveloperId.size()>0">
+              and pd.building_developer_id in
+              <foreach collection="buildingDeveloperId" item="i" open="(" close=")"
+                       separator=",">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="buildingSiteId != null and buildingSiteId.size()>0">
+              and pd.building_site_id in
+              <foreach collection="buildingSiteId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="yearMonth != null">
+              and pd.year_month = #{yearMonth}
+          </if>
+          <if test="deletedFlag!= null">
+              and deleted_flag= #{deletedFlag,jdbcType=NUMERIC}
+          </if>
+      </where>
+    </select>
+
+    <select id="findPaymentReportCellList" resultMap="paymentReportCellDtoMap">
+      select tenant_id, building_developer_id, building_site_id, year_month, sum(money) as gross_salary,
+      case status when 3 then sum(money) else sum(0) end as paid_salary
+      from sbm_payment_detail
+      where tenant_id=#{tenantId} and FLOOR(year_month/100) = #{year}
+      group by tenant_id, building_developer_id, building_site_id, year_month, status
+    </select>
+</mapper>

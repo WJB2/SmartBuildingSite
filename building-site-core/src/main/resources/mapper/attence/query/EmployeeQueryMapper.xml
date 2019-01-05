@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.query.EmployeeQuery">
+
+    <resultMap id="employeeDtoMap" type="com.hozensoft.smartsite.attence.dto.EmployeeDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="bank" column="bank"/>
+        <result property="bankNo" column="bank_no"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <result property="mobile" column="mobile"/>
+        <result property="workType" column="work_type" />
+        <result property="registerTime" column="register_time"/>
+        <result property="unregistered" column="unregistered" />
+        <result property="unregisterTime" column="unregister_time" />
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <resultMap id="employeeItemDtoMap" type="com.hozensoft.smartsite.attence.dto.EmployeeItemDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="bank" column="bank"/>
+        <result property="bankNo" column="bank_no"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <result property="mobile" column="mobile"/>
+        <result property="workType" column="workType" />
+        <result property="registerTime" column="register_time"/>
+        <result property="unregistered" column="unregistered" />
+        <result property="unregisterTime" column="unregister_time" />
+        <result property="deletedFlag" column="deleted_flag" />
+        <association property="buildingDeveloper" column="building_developer_id" javaType="com.hozensoft.smartsite.base.dto.BuildingDeveloperItemDto">
+            <id property="id" column="building_developer_id" />
+            <result property="name" column="building_developer_name" />
+        </association>
+        <association property="buildingSite" column="building_site_id" javaType="com.hozensoft.smartsite.base.dto.BuildingSiteItemDto">
+            <id property="id" column="building_site_id" />
+            <result property="name" column="building_site_name" />
+        </association>
+    </resultMap>
+
+    <sql id="selectEmployeeDtoPart">
+        select emp.id as id, emp.tenant_id as tenant_id, emp.building_developer_id as building_developer_id,
+        emp.building_site_id as building_site_id, emp.code as code, emp.name as name,emp.name_pinyin as name_pinyin,
+        emp.id_card_no as id_card_no, emp.bank as bank, emp.bank_no as bank_no, emp.gender as gender, emp.birthday as birthday,
+        emp.address as address, emp.mobile as mobile, emp.work_type as work_type, emp.register_time as register_time, emp.unregistered as unregistered,
+        emp.unregister_time as unregister_time, emp.deleted_flag as deleted_flag, emp.created_by_id as created_by_id,
+        emp.created_org_id as created_org_id, emp.created_time as created_time, emp.updated_by_id as updated_by_id,
+        emp.updated_org_id as updated_org_id, emp.updated_time as updated_time,
+        emp.deleted_by_id as deleted_by_id, emp.deleted_org_id as deleted_org_id, emp.deleted_time as deleted_time
+        from sbm_employee  as emp
+    </sql>
+
+    <sql id="selectEmployeeItemDtoPart">
+        select emp.id as id, emp.tenant_id as tenant_id, emp.building_developer_id as building_developer_id,
+        emp.building_site_id as building_site_id, emp.code as code, emp.name as name,
+        emp.name_pinyin as name_pinyin, emp.id_card_no as id_card_no, emp.bank as bank, emp.bank_no as bank_no,
+        emp.gender as gender, emp.birthday as birthday, emp.address as address, emp.mobile as mobile, emp.work_type as work_type,
+        emp.register_time as register_time, emp.unregistered as unregistered, emp.unregister_time as unregister_time,
+        emp.deleted_flag as deleted_flag, dev.name as building_developer_name, site.name as building_site_name
+        from sbm_employee  as emp
+        inner join sys_organization dev on emp.building_developer_id=dev.id
+        inner join sbm_building_site site on emp.building_site_id=site.id
+    </sql>
+
+    <sql id="whereClause">
+      <where>
+          <if test="tenantId !=null">
+              emp.tenant_id = #{tenantId}
+          </if>
+          <if test="id!=null and id.size()>0">
+              and emp.id in
+              <foreach collection="id" item="i" open="(" separator="," close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="code!=null and code.size()>0">
+              and emp.code in
+              <foreach collection="code" item="i" open="(" separator="," close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="idCardNo!=null and idCardNo.size()>0">
+              and emp.id_card_no in
+              <foreach collection="idCardNo" item="i" open="(" separator="," close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="bankCardNo!=null and bankCardNo.size()>0">
+              and emp.bank_no in
+              <foreach collection="bankCardNo" item="i" open="(" separator="," close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="buildingDeveloperId != null and buildingDeveloperId.size()>0">
+              and emp.building_developer_id in
+              <foreach collection="buildingDeveloperId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="buildingSiteId != null and buildingSiteId.size()>0">
+              and emp.building_site_id in
+              <foreach collection="buildingSiteId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+
+          <if test="unregistered !=null">
+              and emp.unregistered = #{unregistered}
+          </if>
+          <if test="deletedFlag !=null">
+              and emp.deleted_flag = #{deletedFlag, jdbcType=NUMERIC}
+          </if>
+          <if test="employeeText!=null and employeeText!=''">
+              and (emp.name like '%'||#{employeeText}||'%'
+              or emp.id_card_no like '%'||#{employeeText}||'%'
+              or emp.mobile like '%'||#{employeeText}||'%')
+          </if>
+      </where>
+    </sql>
+
+    <select id="findEmployeeById" resultMap="employeeDtoMap">
+        <include refid="selectEmployeeDtoPart"></include>
+        where emp.id = #{employeeId}
+    </select>
+
+    <select id="findEmployeeByCode" resultMap="employeeDtoMap">
+        <include refid="selectEmployeeDtoPart"></include>
+        where emp.building_developer_id=#{buildingDeveloperId}
+        and emp.code = #{employeeCode}
+    </select>
+
+    <select id="findEmployeeList" resultMap="employeeItemDtoMap">
+        <include refid="selectEmployeeItemDtoPart"></include>
+        <include refid="whereClause" />
+        order by emp.deleted_flag asc, emp.code asc
+    </select>
+</mapper>

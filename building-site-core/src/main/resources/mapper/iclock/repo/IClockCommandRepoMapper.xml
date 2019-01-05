@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.iclock.dao.repo.IClockCommandRepo">
+
+    <insert id="addIClockCommandList">
+        insert into sbm_i_clock_command(id, sn, command)
+        values
+        <foreach collection="commands" item="i" separator=",">
+            (#{i.id}, #{i.sn}, #{i.command})
+        </foreach>
+    </insert>
+
+    <delete id="deleteIClockCommandById">
+        delete from sbm_i_clock_command where id in
+        <foreach collection="commandIds" item="i" separator="," open="(" close=")">
+            #{i}
+        </foreach>
+    </delete>
+
+</mapper>

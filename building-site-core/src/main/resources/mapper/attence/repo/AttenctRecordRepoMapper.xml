@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.repo.AttenceRecordRepo">
+
+    <insert id="addAttenceRecord">
+        insert into sbm_attence_record(id, tenant_id, building_developer_id, building_site_id,
+        employee_id, work_type, break_enabled, check_date, begin_time, break_begin_time,
+        break_end_time, end_time, check_in_status, check_in_time,
+        clock_in_type, break_check_out_status, break_check_out_time, break_clock_out_type,
+        break_check_in_status, break_check_in_time, break_clock_in_type, check_out_status, check_out_time, clock_out_type,
+        check_status, working_day, updated_by_id, updated_org_id, updated_time)
+        values(#{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId}, #{employeeId},
+        #{workType}, #{breakEnabled, jdbcType=NUMERIC}, #{checkDate}, #{beginTime}, #{breakBeginTime}, #{breakEndTime},
+        #{endTime}, #{checkInStatus}, #{checkInTime},  #{clockInType},#{breakCheckOutStatus}, #{breakCheckOutTime},
+        #{breakClockOutType}, #{breakCheckInStatus}, #{breakCheckInTime},  #{breakClockInType},
+        #{checkOutStatus}, #{checkOutTime}, #{clockOutType}, #{checkStatus},
+        #{workingDay}, #{updatedById}, #{updatedOrgId}, #{updatedTime})
+    </insert>
+
+    <update id="editAttenceRecord">
+        update sbm_attence_record set
+          break_enabled = #{breakEnabled, jdbcType=NUMERIC},
+          check_date = #{checkDate},
+          begin_time = #{beginTime},
+          break_begin_time = #{breakBeginTime},
+          break_end_time = #{breakEndTime},
+          end_time = #{endTime},
+          check_in_status = #{checkInStatus},
+          check_in_time = #{checkInTime},
+          clock_in_type = #{clockInType},
+          break_check_out_status = #{breakCheckOutStatus},
+          break_check_out_time = #{breakCheckOutTime},
+          break_clock_out_type = #{breakClockOutType},
+          break_check_in_status = #{breakCheckInStatus},
+          break_check_in_time = #{breakCheckInTime},
+          break_clock_in_type = #{breakClockInType},
+          check_out_status = #{checkOutStatus},
+          check_out_time = #{checkOutTime},
+          clock_out_type = #{clockOutType},
+          check_status = #{checkStatus},
+          working_day = #{workingDay},
+          updated_by_id = #{updatedById},
+          updated_org_id = #{updatedOrgId},
+          updated_time = #{updatedTime}
+         where id=#{id}
+    </update>
+
+    <resultMap id="attenceRecordMap" type="com.hozensoft.smartsite.attence.domain.AttenceRecord">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="buildingDeveloperId" column="building_developer_id" />
+        <result property="buildingSiteId" column="building_site_id" />
+        <result property="employeeId" column="employee_id" />
+        <result property="workType" column="work_type" />
+        <result property="breakEnabled" column="break_enabled" />
+        <result property="checkDate" column="check_date" />
+        <result property="beginTime" column="begin_time" />
+        <result property="breakBeginTime" column="break_begin_time" />
+        <result property="breakEndTime" column="break_end_time" />
+        <result property="endTime" column="end_time" />
+        <result property="checkInStatus" column="check_in_status" />
+        <result property="checkInTime" column="check_in_time" />
+        <result property="clockInType" column="clock_in_type" />
+        <result property="breakCheckOutStatus" column="break_check_out_status" />
+        <result property="breakClockOutType" column="break_clock_out_type" />
+        <result property="breakCheckOutTime" column="break_check_out_time" />
+        <result property="breakCheckInStatus" column="break_check_in_status" />
+        <result property="breakClockInType" column="break_clock_in_type" />
+        <result property="breakCheckInTime" column="break_check_in_time" />
+        <result property="checkOutStatus"  column="check_out_status" />
+        <result property="checkOutTime" column="check_out_time" />
+        <result property="clockOutType" column="clock_out_type" />
+        <result property="checkStatus" column="check_status" />
+        <result property="workingDay" column="working_day" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+    </resultMap>
+
+    <select id="loadAttenceByEmployeeAndCheckDate" resultMap="attenceRecordMap">
+        select id, tenant_id, building_developer_id, building_site_id,
+        employee_id, work_type, break_enabled, check_date, begin_time, break_begin_time, break_end_time, end_time, check_in_status,
+        check_in_time, clock_in_type, break_check_out_status, break_clock_out_type, break_check_out_time,
+        break_check_in_status, break_clock_in_type, break_check_in_time, check_out_status, clock_out_type, check_out_time,
+        check_status, working_day, updated_by_id, updated_org_id, updated_time
+        from sbm_attence_record
+        where building_site_id = #{buildingSiteId}
+        and building_developer_id = #{buildingDeveloperId}
+        and employee_id = #{employeeId}
+        and tenant_id = #{tenantId}
+        and check_date = #{checkDate}
+    </select>
+</mapper>

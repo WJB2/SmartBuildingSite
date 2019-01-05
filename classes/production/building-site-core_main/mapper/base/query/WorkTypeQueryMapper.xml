@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.base.dao.query.WorkTypeQuery">
+
+    <resultMap id="workTypeDtoMap" type="com.hozensoft.smartsite.base.dto.WorkTypeDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="sortNo" column="sort_no"/>
+    </resultMap>
+
+    <sql id="selectWorkTypeDtoMap">
+        select wk.id as id, wk.tenant_id as tenant_id, wk.building_developer_id as building_developer_id,
+        wk.building_site_id as building_site_id, wk.name as name, wk.name_pinyin as name_pinyin, wk.sort_no as sort_no
+        from sbm_work_type as wk
+    </sql>
+
+    <select id="findWorkTypeById" resultMap="workTypeDtoMap">
+        <include refid="selectWorkTypeDtoMap"/>
+         where wk.id = #{workTypeId}
+    </select>
+
+    <sql id="whereClause">
+        <where>
+            <if test="tenantId !=null">
+                wk.tenant_id = #{tenantId}
+            </if>
+            <if test="buildingDeveloperId != null and buildingDeveloperId.size()>0">
+                and wk.building_developer_id in
+                <foreach collection="buildingDeveloperId" item="i" separator="," open="(" close=")">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingSiteId != null and buildingSiteId.size()>0">
+                and wk.building_site_id in
+                <foreach collection="buildingSiteId" item="i" separator="," open="(" close=")">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="workTypeText!=null and workTypeText!=''">
+                and wk.name like '%'||#{workTypeText}||'%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="findWorkTypeList" resultMap="workTypeDtoMap">
+        <include refid="selectWorkTypeDtoMap"/>
+        <include refid="whereClause" />
+    </select>
+</mapper>

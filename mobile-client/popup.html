@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+   
+    .pop-wrap {
+        /* display: none; */
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9990;
+        width: 100%;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .pop-overlay {
+        /* display: none; */
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    .pop-dialog {
+        /* display: none; */
+        overflow: hidden;
+        position: absolute;
+        z-index: 9;
+        top:-1000px;
+        left: 50%;
+        border-radius: 8px;
+        width: 300px;
+        background: #fff;
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .pop-wrap .pop-dialog,.pop-overlay{
+      transition: all .8s ease .1s;
+    }
+    .show-pop-wrap{
+      min-height:100%;
+    }
+    .show-pop-wrap .pop-dialog{
+      top: 50%;
+    }
+    .show-pop-wrap .pop-overlay{
+      opacity: .8;
+      filter: alpha(opacity=80);
+    }
+    .pop-dialog .i-icon.pop-close {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+    .pop-dialog .i-icon.pop-close:before {
+        background-position: -126px 0;
+        background-size: 174px auto;
+        width: 20px;
+        height: 20px;
+    }
+
+    .pop-dialog .dialog-tt {
+        padding: 40px 40px 20px;
+        font-size: 20px;
+        text-align: center;
+        line-height: 28px;
+        color: #333;
+    }
+
+    .pop-dialog .form-tt {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #d7d7d7;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        line-height: 16px;
+    }
+
+    .pop-dialog .dialog-bd {
+        margin: 0 40px 40px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .pop-dialog .btn-wrap {
+        border-top: 1px solid #d7d7d7;
+        height: 45px;
+        background: #fff;
+        line-height: 45px;
+        font-size: 20px;
+        color: #ff8d00;
+        cursor: pointer;
+        background: 0;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .pop-dialog .btn-wrap .btn {
+        float: left;
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        height: 100%;
+        line-height: 45px;
+        font-size: 16px;
+        color: #ff8d00;
+        cursor: pointer;
+        background: 0;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .pop-dialog .btn-wrap .btn.cancel {
+        border-right: 1px solid #d7d7d7;
+        color: #999;
+    }
+
+    .pop-dialog.withdraw .dialog-tt {
+        position: relative;
+        margin-top: 80px;
+    }
+
+    .pop-dialog.withdraw .happy-icon:before,.pop-dialog.withdraw .sad-icon:before {
+        background-size: 400px auto;
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        margin-left: -20px;
+        width: 38px;
+        height: 45px;
+    }
+
+    .pop-dialog .happy-icon:before {
+        background-position: -218px -539px;
+    }
+
+    .pop-dialog .sad-icon:before {
+        background-position: -218px -493px;
+    }
+
+    .pop-dialog .dialog-bd p {
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+  </style>
+ 
+
+ 
+</head>
+<body>
+    <button id="popbtn">弹出会话框</button>
+    <div class="pop-wrap j-confirm-del-box" id="popBox">
+        <div class="pop-overlay"></div>
+        <div class="pop-dialog">
+            <i class="i-icon pop-close j-close-dialog"></i>
+            <h2 class="dialog-tt">确认删除此内容？</h2>
+            <div class="btn-wrap">
+                <div class="btn cancel j-close-dialog">取消</div>
+                <div class="btn confirm j-confirm-del-btn">确定</div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      $("#popbtn").click(function(){
+        $("#popBox").addClass("show-pop-wrap")
+      });
+    </script>
+</body>
+</html>

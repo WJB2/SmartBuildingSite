@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.wechat.common.dao.repo.WxStaffLinkRepo">
+
+    <insert id="addWxStaffLink">
+        insert into wx_staff_link(id, tenant_id, staff_id, wx_app_id, open_id)
+        values(#{id}, #{tenantId}, #{staffId}, #{wxAppId}, #{openId})
+    </insert>
+
+    <resultMap type="com.hozensoft.wechat.common.domain.WxStaffLink" id="wxStaffLinkMap">
+        <id column="id" property="id"/>
+        <result column="tenant_id" property="tenantId" />
+        <result column="staff_id" property="staffId" />
+        <result column="wx_app_id" property="wxAppId" />
+        <result column="open_id" property="openId" />
+    </resultMap>
+
+    <select id="loadWxStaffLinkByAppIdAndOpenId" resultMap="wxStaffLinkMap">
+      select id, tenant_id, staff_id, wx_app_id, open_id from wx_staff_link
+      where wx_app_id=#{wxAppId} and open_id=#{openId}
+    </select>
+</mapper>

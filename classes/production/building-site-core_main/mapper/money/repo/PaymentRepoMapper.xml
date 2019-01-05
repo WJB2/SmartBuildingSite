@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.money.dao.repo.PaymentRepo">
+
+    <insert id="addPayment">
+        insert into sbm_payment(id, tenant_id, building_developer_id, building_site_id,
+        year_month, begin_date, end_date, money, deleted_flag, created_by_Id, created_org_Id, created_time, updated_by_id,
+        updated_org_id, updated_time, deleted_by_id, deleted_org_id, deleted_time)
+        values(#{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId},
+        #{yearMonth}, #{beginDate}, #{endDate}, #{money}, #{deletedFlag, jdbcType=NUMERIC}, #{createdById},#{createdOrgId}, #{createdTime},#{updatedById},#{updatedOrgId},
+        #{updatedTime},#{deletedById},#{deletedOrgId},#{deletedTime})
+    </insert>
+
+</mapper>

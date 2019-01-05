@@ -1,0 +1,16 @@
+dependencies {
+
+	compile "com.hozensoft:application-configuration:0.0.1-SNAPSHOT"
+
+	compile "com.hozensoft:application-common:0.0.1-SNAPSHOT"
+
+	compile "com.hozensoft:global-core:0.0.1-SNAPSHOT"
+
+	compile "com.hozensoft:user-core:0.0.1-SNAPSHOT"
+
+	compile "com.hozensoft:system-core:0.0.1-SNAPSHOT"
+
+	compile 'com.github.binarywang:weixin-java-mp:3.2.0'
+
+	compile project(':building-site-api')
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.base.dao.repo.BuildingSiteRepo">
+
+   <insert id="addBuildingSite">
+      insert into sbm_building_site (id, tenant_id, building_developer_id, name, name_pinyin,address,
+      admin_staff_id, deleted_flag, created_by_id, created_org_id, created_time, updated_by_id, updated_org_id,
+      updated_time, deleted_by_id, deleted_org_id, deleted_time)
+      values (#{id}, #{tenantId}, #{buildingDeveloperId}, #{name}, #{namePinyin}, #{address}, #{adminStaffId},
+      #{deletedFlag, jdbcType=NUMERIC}, #{createdById}, #{createdOrgId}, #{createdTime}, #{updatedById}, #{updatedOrgId}, #{updatedTime},
+      #{deletedById}, #{deletedOrgId}, #{deletedTime}
+      )
+   </insert>
+
+
+   <update id="editBuildingSite">
+      update sbm_building_site set
+         tenant_id = #{tenantId},
+         building_developer_id = #{buildingDeveloperId},
+         name = #{name},
+         name_pinyin = #{namePinyin},
+         address = #{address},
+         admin_staff_id = #{adminStaffId},
+         deleted_flag = #{deletedFlag, jdbcType=NUMERIC},
+         created_by_id = #{createdById},
+         created_org_id = #{createdOrgId},
+         created_time = #{createdTime},
+         updated_by_id = #{updatedById},
+         updated_org_id = #{updatedOrgId},
+         updated_time = #{updatedTime},
+         deleted_by_id = #{deletedById},
+         deleted_org_id = #{deletedOrgId},
+         deleted_time = #{deletedTime}
+      where id = #{id}
+   </update>
+
+   <update id="patchEditBuildingSite">
+      update sbm_building_site
+      <set>
+         <if test="tenantId != null">
+            tenant_id = #{tenantId},
+         </if>
+         <if test="buildingDeveloperId != null">
+            building_developer_id = #{buildingDeveloperId},
+         </if>
+         <if test="name != null">
+            name = #{name},
+         </if>
+         <if test="namePinyin != null">
+            name_pinyin = #{namePinyin},
+         </if>
+         <if test="address != null">
+            address = #{address},
+         </if>
+         <if test="adminStaffId != null">
+            admin_staff_id = #{adminStaffId},
+         </if>
+         <if test="deletedFlag != null">
+            deleted_flag = #{deletedFlag},
+         </if>
+         <if test="createdById != null">
+            created_by_id = #{createdById},
+         </if>
+         <if test="createdOrgId != null">
+            created_org_id = #{createdOrgId},
+         </if>
+         <if test="createdTime != null">
+            created_time = #{createdTime},
+         </if>
+         <if test="updatedById != null">
+            updated_by_id = #{updatedById},
+         </if>
+         <if test="updatedOrgId != null">
+            updated_org_id = #{updatedOrgId},
+         </if>
+         <if test="updatedTime != null">
+            updated_time = #{updatedTime},
+         </if>
+         <if test="deletedById != null">
+            deleted_by_id = #{deletedById},
+         </if>
+         <if test="deletedOrgId != null">
+            deleted_org_id = #{deletedOrgId},
+         </if>
+         <if test="deletedTime != null">
+            deleted_time = #{deletedTime}
+         </if>
+      </set>
+      where id = #{id}
+   </update>
+
+   <delete id="deleteBuildingSiteById">
+      delete  from  sbm_building_site where id = ${buildingSiteId}
+   </delete>
+
+   <resultMap id="buildingSiteMap" type="com.hozensoft.smartsite.base.domain.BuildingSite">
+      <id property="id" column="id"/>
+      <result property="tenantId" column="tenant_id"/>
+      <result property="buildingDeveloperId" column="building_developer_id"/>
+      <result property="name" column="name"/>
+      <result property="namePinyin" column="name_pinyin"/>
+      <result property="address" column="address"/>
+      <result property="adminStaffId" column="admin_staff_id"/>
+      <result property="deletedFlag" column="deleted_flag" />
+      <result property="createdById" column="created_by_id" />
+      <result property="createdOrgId" column="created_org_id" />
+      <result property="createdTime" column="created_time" />
+      <result property="updatedById" column="updated_by_id" />
+      <result property="updatedOrgId" column="updated_org_id" />
+      <result property="updatedTime" column="updated_time" />
+      <result property="deletedById" column="deleted_by_id" />
+      <result property="deletedOrgId" column="deleted_org_id" />
+      <result property="deletedTime" column="deleted_time" />
+   </resultMap>
+
+   <sql id="selectBuildingSitePart">
+        select site.id as id, site.tenant_id as tenant_id, site.building_developer_id as building_developer_id,
+        site.name as name, site.name_pinyin as name_pinyin,site.admin_staff_id as admin_staff_id, site.address as address,
+        site.deleted_flag as deleted_flag, site.created_by_id as created_by_id, site.created_org_id as created_org_id,
+        site.created_time as created_time,site.updated_by_id as updated_by_id, site.updated_org_id as updated_org_id,
+        site.updated_time as updated_time, site.deleted_by_id as deleted_by_id, site.deleted_org_id as deleted_org_id,
+        site.deleted_time as deleted_time
+        from sbm_building_site as site
+    </sql>
+
+   <select id="loadBuildingSiteById" resultMap="buildingSiteMap">
+      <include refid="selectBuildingSitePart"></include>
+      where site.id = #{buildingSiteId}
+   </select>
+</mapper>

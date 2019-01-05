@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.iclock.dao.query.IClockCommandQuery">
+
+    <resultMap id="iClockCommandItemDtoMap" type="com.hozensoft.smartsite.iclock.dto.IClockCommandItemDto">
+        <id property="id" column="id"/>
+        <result property="sn" column="sn"/>
+        <result property="command" column="command"/>
+    </resultMap>
+
+    <sql id="selectIClockCommandItemDtoMap">
+        select id, sn, command from sbm_i_clock_command
+    </sql>
+
+    <select id="findIClockCommandListBySn" resultMap="iClockCommandItemDtoMap">
+        <include refid="selectIClockCommandItemDtoMap"/>
+         where sn=#{sn}
+        order by id asc
+    </select>
+
+</mapper>

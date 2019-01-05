@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.money.dao.repo.PaymentDetailRepo">
+
+    <insert id="addPaymentDetailList">
+        insert into sbm_payment_detail(id, tenant_id, building_developer_id, building_site_id,
+        name, id_card_no, year_month, begin_date, end_date, bank, bank_no, work_type,
+        attence_days, money, status, remake,
+        deleted_flag, created_by_Id, created_org_Id, created_time, updated_by_id,
+        updated_org_id, updated_time, deleted_by_id, deleted_org_id, deleted_time)
+        values
+        <foreach collection="list" item="i" separator=",">
+            (#{i.id}, #{i.tenantId}, #{i.buildingDeveloperId}, #{i.buildingSiteId},
+            #{i.name}, #{i.idCardNo}, #{i.yearMonth}, #{i.beginDate}, #{i.endDate}, #{i.bank}, #{i.bankNo},
+            #{i.workType}, #{i.attenceDays}, #{i.money}, #{i.status}, #{i.remake},
+            #{i.deletedFlag, jdbcType=NUMERIC}, #{i.createdById},#{i.createdOrgId}, #{i.createdTime},#{i.updatedById},#{i.updatedOrgId},
+            #{i.updatedTime},#{i.deletedById},#{i.deletedOrgId},#{i.deletedTime})
+        </foreach>
+    </insert>
+
+    <resultMap id="paymentDetailMap" type="com.hozensoft.smartsite.money.domain.PaymentDetail">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="buildingDeveloperId" column="building_developer_id" />
+        <result property="buildingSiteId" column="building_site_id" />
+        <result property="name" column="name" />
+        <result property="idCardNo" column="id_card_no" />
+        <result property="yearMonth" column="year_month" />
+        <result property="beginDate" column="begin_date" />
+        <result property="endDate" column="end_date" />
+        <result property="bank" column="bank" />
+        <result property="bankNo" column="bank_no" />
+        <result property="workType" column="work_type" />
+        <result property="attenceDays" column="attence_days" />
+        <result property="money" column="money" />
+        <result property="status" column="status" />
+        <result property="remake" column="remake"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <select id="loadPaymentDetailList" resultMap="paymentDetailMap">
+        select id, tenant_id, building_developer_id, building_site_id,
+        name, id_card_no, year_month, begin_date, end_date, bank, bank_no, work_type,
+        attence_days, money, status,remake,
+        deleted_flag, created_by_Id, created_org_Id, created_time, updated_by_id,
+        updated_org_id, updated_time, deleted_by_id, deleted_org_id, deleted_time
+        from sbm_payment_detail
+        where
+        tenant_id = #{tenantId}
+        and building_developer_id = #{buildingDeveloperId}
+        and building_site_id = #{buildingSiteId}
+        and year_month = #{yearMonth}
+        and id_card_no in
+        <foreach collection="idCardNo" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </select>
+
+    <update id="editPaymentDetailMoney">
+        update sbm_payment_detail set
+        money = #{money}
+        where id=#{id}
+      where
+    </update>
+
+    <update id="editPaymentDetailStatus">
+      update sbm_payment_detail set
+        status = #{status}
+      where
+        tenant_id = #{tenantId}
+        and building_developer_id = #{buildingDeveloperId}
+        and building_site_id = #{buildingSiteId}
+        and year_month = #{yearMonth}
+        and id_card_no in
+        <foreach collection="idCardNo" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </update>
+</mapper>

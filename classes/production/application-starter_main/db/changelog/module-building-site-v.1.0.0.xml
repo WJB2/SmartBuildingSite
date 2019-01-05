@@ -1,0 +1,895 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create_sbm_building_developer" author="gongjunpeng">
+        <comment>创建开发商用户信息表</comment>
+        <createTable tableName="sbm_building_developer" remarks="开发商信息表">
+            <column name="id" type="varchar(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="org_id" type="varchar(32)" remarks="关联组织机构">
+                <constraints nullable="false" />
+            </column>
+            <column name="credit_code" type="varchar(80)" remarks="社会统一信用代码">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="name" type="varchar(80)" remarks="开发商名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_pinyin" type="varchar(32)" remarks="开发商名称简拼">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="corporation" type="varchar(80)" remarks="开发商法人">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="corporation_mobile" type="varchar(24)" remarks="开发商法人联系电话">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="admin_staff_id" type="varchar(32)" remarks="开发商管理员用户ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="telephone" type="varchar(24)" remarks="开发商联系电话">
+                <constraints nullable="true"/>
+            </column>
+            <column name="fax" type="varchar(24)" remarks="开发商传真号码">
+                <constraints nullable="true"/>
+            </column>
+            <column name="address" type="varchar(250)" remarks="开发商联系地址">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="bank_no" type="varchar(50)" remarks="开发商银行账户号码">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_building_developer" columnNames="credit_code" />
+    </changeSet>
+
+    <changeSet id="create_sbm_building_site" author="zhujingjun">
+        <comment>创建工地信息表</comment>
+        <createTable tableName="sbm_building_site" remarks="工地信息表">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(80)" remarks="工地名称">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_pinyin" type="VARCHAR(80)" remarks="工地名称拼音简码">
+                <constraints nullable="true" />
+            </column>
+            <column name="address" type="VARCHAR(128)" remarks="工地地址">
+                <constraints nullable="true" />
+            </column>
+            <column name="admin_staff_id" type="VARCHAR(32)" remarks="工地地址">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_building_site" columnNames="building_developer_id, name" />
+    </changeSet>
+
+    <changeSet id="create_sbm_work_type" author="zhujingjun">
+        <comment>创建工种信息表</comment>
+        <createTable tableName="sbm_work_type" remarks="工种类型">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(32)" remarks="工种名称">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_pinyin" type="VARCHAR(32)" remarks="工种名称简拼">
+                <constraints nullable="true" />
+            </column>
+            <column name="sort_no" type="NUMERIC(10,2)" remarks="显示顺序">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_work_type" columnNames="building_developer_id, building_site_id, name" />
+    </changeSet>
+
+    <changeSet id="create_sbm_employee" author="zhujingjun">
+        <comment>创建工人信息表</comment>
+        <createTable tableName="sbm_employee" remarks="农民工信息表">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="code" type="VARCHAR(32)" remarks="工号">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(80)" remarks="姓名">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_pinyin" type="VARCHAR(80)" remarks="姓名简拼">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_card_no" type="VARCHAR(20)" remarks="身份证号">
+                <constraints nullable="false" />
+            </column>
+            <column name="bank" type="VARCHAR(80)" remarks="开户银行">
+                <constraints nullable="false" />
+            </column>
+            <column name="bank_no" type="VARCHAR(40)" remarks="银行卡卡号">
+                <constraints nullable="false" />
+            </column>
+            <column name="gender" type="VARCHAR(10)" remarks="性别">
+                <constraints nullable="true" />
+            </column>
+            <column name="birthday" type="TIMESTAMP" remarks="出生日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="address" type="VARCHAR(128)" remarks="联系地址">
+                <constraints nullable="true" />
+            </column>
+            <column name="mobile" type="VARCHAR(15)" remarks="联系电话">
+                <constraints nullable="true" />
+            </column>
+            <column name="work_type" type="VARCHAR(80)">
+                <constraints nullable="true" />
+            </column>
+            <column name="register_time" type="TIMESTAMP" remarks="入职时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="unregistered" type="NUMERIC(1, 0)" remarks="是否注销">
+                <constraints nullable="false" />
+            </column>
+            <column name="unregister_time" type="TIMESTAMP" remarks="注销日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_employee" columnNames="building_developer_id, building_site_id, code" />
+    </changeSet>
+
+    <changeSet id="create_sbm_attence_device" author="zhujingjun">
+        <comment>创建考勤设备信息表</comment>
+        <createTable tableName="sbm_attence_device" remarks="设备信息表">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="sn" type="VARCHAR(80)" remarks="设备唯一编码">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="VARCHAR(80)" remarks="设备类别">
+                <constraints nullable="false" />
+            </column>
+            <column name="remark" type="VARCHAR(80)" remarks="备注">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_attence_device" columnNames="sn" />
+    </changeSet>
+
+    <changeSet id="create_sbm_attence_device_transfer" author="zhujingjun">
+        <comment>创建考勤设备移机信息表</comment>
+        <createTable tableName="sbm_attence_device_transfer" remarks="设备移机记录表">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="attence_device_id" type="VARCHAR(32)" remarks="考勤设备ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="original_building_developer_id" type="VARCHAR(32)" remarks="原开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="original_building_site_id" type="VARCHAR(32)" remarks="原工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="target_building_developer_id" type="VARCHAR(32)" remarks="目标开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="target_building_site_id" type="VARCHAR(32)" remarks="目标工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_attence_record" author="zhujingjun">
+        <comment>创建考勤记录信息表</comment>
+        <createTable tableName="sbm_attence_record" remarks="考勤记录">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="employee_id" type="VARCHAR(32)" remarks="人员ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="work_type" type="VARCHAR(80)" remarks="工种">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_date" type="TIMESTAMP" remarks="考勤日期">
+                <constraints nullable="false" />
+            </column>
+            <column name="begin_time" type="TIMESTAMP" remarks="工作开始时间">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_time" type="TIMESTAMP" remarks="工作结束时间">
+                <constraints nullable="false" />
+            </column>
+            <column name="check_in_status" type="NUMERIC(2,0)" remarks="上班考勤状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_in_time" type="TIMESTAMP" remarks="上班考勤时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="clock_in_type" type="NUMERIC(2,0)" remarks="上班打卡类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_out_status" type="NUMERIC(2,0)" remarks="下班考勤状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_out_time" type="TIMESTAMP" remarks="下班考勤时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="clock_out_type" type="NUMERIC(2,0)" remarks="下班打卡类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_status" type="NUMERIC(2,0)" remarks="当日考勤状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="working_day" type="NUMERIC(8,0)" remarks="出勤天数">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="alter_sbm_attence_record" author="zhujingjun">
+        <addColumn tableName="sbm_attence_record">
+            <column name="break_enabled" type="NUMERIC(1,0)" remarks="休息结束时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_begin_time" type="TIMESTAMP" remarks="休息开始时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_end_time" type="TIMESTAMP" remarks="休息结束时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_check_out_status" type="NUMERIC(2,0)" remarks="休息退卡状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_clock_out_type" type="NUMERIC(2,0)" remarks="休息退卡类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_check_out_time" type="TIMESTAMP" remarks="休息退卡时间时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_check_in_status" type="NUMERIC(2,0)" remarks="休息完打卡状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_clock_in_type" type="NUMERIC(2,0)" remarks="休息完打卡类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_check_in_time" type="TIMESTAMP" remarks="休息完打卡时间">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="create_sbm_clocking_record" author="zhujingjun">
+        <comment>创建打卡信息表</comment>
+        <createTable tableName="sbm_clocking_record">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="sn" type="VARCHAR(32)" remarks="设备序列号">
+                <constraints  nullable="false" />
+            </column>
+            <column name="employee_code" type="VARCHAR(32)" remarks="人员编码">
+                <constraints  nullable="false" />
+            </column>
+            <column name="clocking_time" type="TIMESTAMP" remarks="打卡时间">
+                <constraints nullable="false" />
+            </column>
+            <column name="check_in_type" type="VARCHAR(10)" remarks="打卡类型">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_deposit" author="zhujingjun">
+        <comment>创建开发商存款信息表</comment>
+        <createTable tableName="sbm_deposit">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="deposit" type="NUMERIC(8, 2)" remarks="金额">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_deposit_record" author="zhujingjun">
+        <comment>创建开发商存款明细记录表</comment>
+        <createTable tableName="sbm_deposit_record">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="deposit_type" type="NUMERIC(2,0)" remarks="款项操作类型">
+                <constraints nullable="false" />
+            </column>
+            <column name="out_credence_id" type="VARCHAR(64)" remarks="外部系统流水号">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_card_no" type="VARCHAR(32)" remarks="开发商账户号">
+                <constraints nullable="true" />
+            </column>
+            <column name="init_deposit" type="NUMERIC(8, 2)" remarks="初始余额">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deposit" type="NUMERIC(8, 2)" remarks="发生金额">
+                <constraints nullable="false" />
+            </column>
+            <column name="remark" type="VARCHAR(128)" remarks="备注信息">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_payment" author="zhujingjun">
+        <comment>创建工资发放单信息表</comment>
+        <createTable tableName="sbm_payment" remarks="工资发放单">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="year_month" type="NUMERIC(8, 0)" remarks="工资所属年月">
+                <constraints nullable="false" />
+            </column>
+            <column name="begin_date" type="TIMESTAMP" remarks="所属周期开始日期">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_date" type="TIMESTAMP" remarks="所属周期结束日期">
+                <constraints nullable="false" />
+            </column>
+            <column name="money" type="NUMERIC(10, 2)" remarks="工资总额">
+                <constraints nullable="false" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_payment_detail" author="zhujingjun">
+        <comment>创建工资发放详情单信息表</comment>
+        <createTable tableName="sbm_payment_detail" remarks="工资发放详情单">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(80)" remarks="工人姓名">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_card_no" type="VARCHAR(20)" remarks="工人身份证号">
+                <constraints nullable="false" />
+            </column>
+            <column name="year_month" type="NUMERIC(8, 0)" remarks="工资所属年月">
+                <constraints nullable="false" />
+            </column>
+            <column name="begin_date" type="TIMESTAMP" remarks="所属周期开始日期">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_date" type="TIMESTAMP" remarks="所属周期结束日期">
+                <constraints nullable="false" />
+            </column>
+            <column name="bank" type="VARCHAR(80)" remarks="开户银行">
+                <constraints nullable="false" />
+            </column>
+            <column name="bank_no" type="VARCHAR(80)" remarks="银行卡号">
+                <constraints nullable="false" />
+            </column>
+            <column name="work_type" type="VARCHAR(80)" remarks="工种">
+                <constraints nullable="true" />
+            </column>
+            <column name="attence_days" type="NUMERIC(8, 2)" remarks="出勤天数">
+                <constraints nullable="true" />
+            </column>
+            <column name="money" type="NUMERIC(10, 2)" remarks="工资总额">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="NUMERIC(3,0)" remarks="发放状态">
+                <constraints nullable="false" />
+            </column>
+            <column name="deleted_flag" type="NUMERIC(1,0)" remarks="逻辑删除标记">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_by_id" type="varchar(32)" remarks="修改者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_org_id" type="varchar(32)" remarks="修改部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="updated_time" type="TIMESTAMP" remarks="修改时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_by_id" type="varchar(32)" remarks="删除者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_org_id" type="varchar(32)" remarks="删除部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="deleted_time" type="TIMESTAMP" remarks="删除时间">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_reward_or_punish" author="jiaohaijing">
+        <comment>创建奖励与惩罚单信息表</comment>
+        <createTable tableName="sbm_reward_or_punish" remarks="奖励与惩罚单">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="NUMERIC(4,0)" remarks="奖励或者惩罚枚举变量" >
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(80)" remarks="奖惩人" >
+                <constraints nullable="false" />
+            </column>
+            <column name="id_card_no" type="VARCHAR(32)" remarks="奖惩人身份证号" >
+                <constraints nullable="false" />
+            </column>
+            <column name="content" type="VARCHAR(8000)" remarks="奖惩内容" >
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by_id" type="varchar(32)" remarks="创建者ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_org_id" type="varchar(32)" remarks="创建部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="created_time" type="TIMESTAMP" remarks="创建时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="approved" type="NUMERIC(1,0)" remarks="是否审核通过">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="audit_by_id" type="varchar(32)" remarks="审核人ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="audit_org_id" type="varchar(32)" remarks="审核人部门ID">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="audit_time" type="TIMESTAMP" remarks="审核时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="audit_remark" type="VARCHAR(80)" remarks="审核意见" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_attence_rule" author="gongjunpeng">
+        <comment>创建考勤规则表</comment>
+        <createTable tableName="sbm_attence_rule" remarks="考勤规则表">
+            <column name="id" type="varchar(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="building_developer_id" type="varchar(32)" remarks="开发商ID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="building_site_id" type="varchar(32)" remarks="工地ID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="begin_time" type="varchar(80)" remarks="开始时间">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="varchar(80)" remarks="结束时间">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="sbm_attence_rule" columnNames="building_developer_id, building_site_id" />
+    </changeSet>
+
+    <changeSet id="alter_sbm_attence_rule" author="zhujingjun">
+        <comment>追加考勤打卡休息时间</comment>
+        <addColumn tableName="sbm_attence_rule">
+            <column name="break_enabled" type="NUMERIC(1,0)" remarks="开启休息时间打卡配置">
+                <constraints nullable="true" />
+            </column>
+            <column name="break_begin_time" type="varchar(80)" remarks="休息开始时间">
+                <constraints nullable="true"/>
+            </column>
+            <column name="break_end_time" type="varchar(80)" remarks="休息结束时间">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="create_sbm_employee_feature" author="zhujingjun">
+        <createTable tableName="sbm_employee_feature">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="building_developer_id" type="VARCHAR(32)" remarks="开发商ID" >
+                <constraints nullable="false" />
+            </column>
+            <column name="building_site_id" type="VARCHAR(32)" remarks="工地ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_card_no" type="VARCHAR(32)" remarks="身份证号">
+                <constraints nullable="false" />
+            </column>
+            <column name="fingerprint" type="CLOB" remarks="指纹模板">
+                <constraints nullable="true" />
+            </column>
+            <column name="face" type="CLOB" remarks="脸部模板">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_sbm_i_clock_command" author="zhujingjun">
+        <createTable tableName="sbm_i_clock_command">
+            <column name="id" type="VARCHAR(16)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="sn" type="varchar(32)" remarks="设备序列号">
+                <constraints  nullable="false" />
+            </column>
+            <column name="command" type="CLOB" remarks="设备命令">
+                <constraints  nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="edit_sbm_payment_detail" author="gongjunpeng">
+        <addColumn tableName="sbm_payment_detail">
+            <column name="remake" type="VARCHAR(400)" remarks="标记" >
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="recreate_sbm_employee_feature" author="zhujingjun">
+        <dropTable tableName="sbm_employee_feature"></dropTable>
+        <createTable tableName="sbm_employee_feature">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="id_card_no" type="VARCHAR(32)" remarks="身份证号">
+                <constraints nullable="false" />
+            </column>
+            <column name="fingerprint" type="CLOB" remarks="指纹模板">
+                <constraints nullable="true" />
+            </column>
+            <column name="face" type="CLOB" remarks="脸部模板">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_wx_app_info" author="zhujingjun">
+        <createTable tableName="wx_app_info">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="app_id" type="VARCHAR(64)" remarks="微信APPID">
+                <constraints nullable="false" />
+            </column>
+            <column name="app_secret" type="VARCHAR(256)" remarks="秘钥">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_wx_staff_link" author="zhujingjun">
+        <createTable tableName="wx_staff_link">
+            <column name="id" type="VARCHAR(32)" remarks="ID">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tenant_id" type="varchar(32)" remarks="租户ID">
+                <constraints  nullable="false" />
+            </column>
+            <column name="staff_id" type="VARCHAR(32)" remarks="人员ID">
+                <constraints nullable="false" />
+            </column>
+            <column name="wx_app_id" type="VARCHAR(64)" remarks="微信APPID">
+                <constraints nullable="false" />
+            </column>
+            <column name="open_id" type="VARCHAR(64)" remarks="开放ID">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="wx_staff_link" columnNames="tenant_id, staff_id" />
+        <addUniqueConstraint tableName="wx_staff_link" columnNames="wx_app_id, open_id" />
+    </changeSet>
+
+</databaseChangeLog>

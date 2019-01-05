@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.repo.AttenceRuleRepo">
+    <insert id="addAttenceRule">
+        insert into sbm_attence_rule(id, tenant_id, building_developer_id, building_site_id, break_enabled, begin_time, break_begin_time, break_end_time, end_time)
+        values (#{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId},#{breakEnabled, jdbcType=NUMERIC}, #{beginTime}, #{breakBeginTime}, #{breakEndTime}, #{endTime})
+    </insert>
+
+    <update id="editAttenceRule">
+        update sbm_attence_rule set
+            id = #{id},
+            tenant_id = #{tenantId},
+            building_developer_id = #{buildingDeveloperId},
+            building_site_id = #{buildingSiteId},
+            break_enabled = #{breakEnabled, jdbcType=NUMERIC},
+            begin_time = #{beginTime},
+            break_begin_time = #{breakBeginTime},
+            break_end_time = #{breakEndTime},
+            end_time = #{endTime}
+        where id = #{id}
+    </update>
+
+    <resultMap id="AttenceRuleMap" type="com.hozensoft.smartsite.attence.domain.AttenceRule">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="breakEnabled" column="break_enabled" />
+        <result property="beginTime" column="begin_time"/>
+        <result property="breakBeginTime" column="break_begin_time" />
+        <result property="breakEndTime" column="break_end_time" />
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+    <select id="loadAttenceRuleByBuildingSiteId" resultMap="AttenceRuleMap">
+        select rul.id as id, rul.tenant_id as tenant_id, rul.building_developer_id as building_developer_id,
+        rul.building_site_id as building_site_id, rul.break_enabled as break_enabled, rul.begin_time as begin_time,
+        rul.break_begin_time as break_begin_time, rul.break_end_time as break_end_time, rul.end_time as end_time
+        from sbm_attence_rule as rul
+        where rul.tenant_id = #{tenantId} and rul.building_developer_id = #{buildingDeveloperId} and rul.building_site_id = #{buildingSiteId}
+    </select>
+</mapper>

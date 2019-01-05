@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.query.AttenceDeviceQuery">
+
+    <resultMap id="attenceDeviceDtoMap" type="com.hozensoft.smartsite.attence.dto.AttenceDeviceDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="sn" column="sn"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <resultMap id="attenceDeviceItemDtoMap" type="com.hozensoft.smartsite.attence.dto.AttenceDeviceItemDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="sn" column="sn"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <association property="buildingDeveloper" column="building_developer_id" javaType="com.hozensoft.system.core.dto.OrganizationAttrDto">
+            <id property="id" column="building_developer_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="org_name" />
+        </association>
+        <association property="buildingSite" column="building_site_id" javaType="com.hozensoft.smartsite.base.dto.BuildingSiteItemDto">
+            <id property="id" column="building_site_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="site_name" />
+        </association>
+    </resultMap>
+
+    <sql id="selectAttenceDeviceDtoPart">
+        select dev.id as id, dev.tenant_id as tenant_id, dev.building_developer_id as building_developer_id,
+         dev.building_site_id as building_site_id, dev.sn as sn, dev.type as type, dev.remark as remark,
+         dev.deleted_flag as deleted_flag, dev.created_by_id as created_by_id, dev.created_org_id as created_org_id,
+         dev.created_time as created_time, dev.updated_by_id as updated_by_id, dev.updated_org_id as updated_org_id,
+         dev.updated_time as updated_time, dev.deleted_by_id as deleted_by_id, dev.deleted_org_id as deleted_org_id,
+         dev.deleted_time as deleted_time
+        from sbm_attence_device dev
+    </sql>
+
+    <sql id="selectAttenceDeviceItemDtoPart">
+        select dev.id as id, dev.tenant_id as tenant_id, dev.building_developer_id as building_developer_id,
+        dev.building_site_id as building_site_id, dev.sn as sn, dev.type as type,dev.remark as remark,
+        dev.deleted_flag as deleted_flag, site.name as site_name, org.name as org_name
+        from sbm_attence_device as dev
+        inner join sys_organization org on dev.building_developer_id=org.id
+        inner join sbm_building_site site on dev.building_site_id=site.id
+    </sql>
+
+    <sql id="whereClause">
+        <where>
+            dev.tenant_id = #{tenantId}
+            <if test="id !=null and id.size()>0">
+                and dev.id in
+                <foreach collection="id" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingDeveloperId !=null and buildingDeveloperId.size()>0">
+                and dev.building_developer_id in
+                <foreach collection="buildingDeveloperId" item="i" open="(" close=")"
+                         separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingSiteId != null and buildingSiteId.size()>0">
+                and building_site_id in
+                <foreach collection="buildingSiteId" item="i" separator="," open="(" close=")">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="sn!=null and sn.size()>0">
+                and dev.sn in
+                <foreach collection="sn" item="i" open="(" close=")" separator=",">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="deletedFlag!=null">
+                and dev.deleted_flag = #{deletedFlag, jdbcType=NUMERIC}
+            </if>
+            <if test="attenceDeviceText!=null and attenceDeviceText!=''">
+                and dev.sn like '%'||#{attenceDeviceText}||'%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="findAttenceDeviceById" resultMap="attenceDeviceDtoMap">
+        <include refid="selectAttenceDeviceDtoPart"></include>
+        where dev.id = #{attenceDeviceId}
+    </select>
+
+    <select id="findAttenceDeviceList" resultMap="attenceDeviceItemDtoMap">
+        <include refid="selectAttenceDeviceItemDtoPart"></include>
+        <include refid="whereClause" />
+    </select>
+</mapper>

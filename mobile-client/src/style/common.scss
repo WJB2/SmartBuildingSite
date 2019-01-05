@@ -1,0 +1,9 @@
+$navBarColor:#2ABCD2;
+$panelBorderColor:#ddd;
+$white:#fff;
+$resetButtonColor:#FE8A44;
+@mixin wcalc($exp){
+    height:-moz-$exp;
+    height:-webkit-$exp;
+    height:$exp;
+}

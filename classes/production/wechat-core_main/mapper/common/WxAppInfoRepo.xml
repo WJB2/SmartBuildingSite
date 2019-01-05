@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.wechat.common.dao.repo.WxAppInfoRepo">
+
+    <insert id="addWxAppInfo">
+        insert into wx_app_info(id, tenant_id, app_id, app_secret)
+        values(#{id}, #{tenantId}, #{appId}, #{appSecret})
+    </insert>
+
+    <update id="editWxAppInfo">
+        update wx_app_info set
+          app_id = #{appId},
+          app_secret = #{appSecret}
+        where id=#{id} and tenant_id=#{tenantId}
+    </update>
+
+    <update id="patchEditWxAppInfo" >
+        update wx_app_info set
+          <set>
+              <if test="appId!=null">
+                  app_id = #{appId},
+              </if>
+              <if test="appSecret!=null">
+                  app_secret = #{appSecret}
+              </if>
+          </set>
+        where id=#{id} and tenant_id=#{tenantId}
+    </update>
+
+    <delete id="deleteWxAppInfoById">
+        delete from wx_app_info where id=#{id}
+    </delete>
+
+    <resultMap id="wxAppInfo" type="com.hozensoft.wechat.common.domain.WxAppInfo">
+        <id column="id" property="id" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="app_id" property="appId" />
+        <result column="app_secret" property="appSecret" />
+    </resultMap>
+
+    <sql id="selectWxAppInfoClause">
+         select id, tenant_id, app_id, app_secret from wx_app_info
+    </sql>
+
+    <select id="loadWxAppInfoById" resultMap="wxAppInfo">
+       <include refid="selectWxAppInfoClause" />
+        where id=#{id}
+    </select>
+
+    <select id="loadWxAppInfoByTenant" resultMap="wxAppInfo">
+        <include refid="selectWxAppInfoClause" />
+        where tenant_id=#{tenantId}
+    </select>
+
+    <select id="loadWxAppInfoByAppId" resultMap="wxAppInfo">
+        <include refid="selectWxAppInfoClause" />
+        where app_id=#{appId}
+    </select>
+</mapper>

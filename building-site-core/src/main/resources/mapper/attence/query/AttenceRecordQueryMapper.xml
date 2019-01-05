@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.query.AttenceRecordQuery">
+
+    <resultMap id="attenceRecordItemDtoMap" type="com.hozensoft.smartsite.attence.dto.AttenceRecordItemDto">
+        <id property="id" column="id" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="buildingDeveloperId" column="building_developer_id" />
+        <result property="buildingSiteId" column="building_site_id" />
+        <result property="employeeId" column="employee_id" />
+        <result property="workType" column="work_type" />
+        <result property="breakEnabled" column="break_enabled" />
+        <result property="checkDate" column="check_date" />
+        <result property="checkInStatus" column="check_in_status" />
+        <result property="clockInType" column="clock_in_type" />
+        <result property="checkInTime" column="check_in_time" />
+        <result property="breakCheckOutStatus" column="break_check_out_status" />
+        <result property="breakClockOutType" column="break_clock_out_type" />
+        <result property="breakCheckOutTime" column="break_check_out_time" />
+        <result property="breakCheckInStatus" column="break_check_in_status" />
+        <result property="breakClockInType" column="break_clock_in_type" />
+        <result property="breakCheckInTime" column="break_check_in_time" />
+        <result property="checkOutStatus" column="check_out_status" />
+        <result property="clockOutType" column="clock_out_type" />
+        <result property="checkOutTime" column="check_out_time" />
+        <result property="workingDay" column="working_day" />
+    </resultMap>
+
+    <select id="findAttenceRecordList" resultMap="attenceRecordItemDtoMap">
+      select id, tenant_id, building_developer_id, building_site_id,
+        employee_id, work_type, break_enabled, check_date, check_in_status, check_in_time,
+        clock_in_type, break_check_out_status, break_clock_out_type, break_check_out_time,
+        break_check_in_status, break_clock_in_type, break_check_in_time,
+        check_out_status, check_out_time, clock_out_type, check_status, working_day
+      from sbm_attence_record
+      <where>
+          <if test="tenantId !=null">
+              tenant_id = #{tenantId}
+          </if>
+          <if test="employeeId!=null">
+              and employee_id in
+              <foreach collection="employeeId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="buildingDeveloperId != null and buildingDeveloperId.size()>0">
+              and building_developer_id in
+              <foreach collection="buildingDeveloperId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="buildingSiteId != null and buildingSiteId.size()>0">
+              and building_site_id in
+              <foreach collection="buildingSiteId" item="i" separator="," open="(" close=")">
+                  #{i}
+              </foreach>
+          </if>
+          <if test="beginDate!=null">
+              and check_date>=#{beginDate}
+          </if>
+          <if test="endDate!=null">
+              <![CDATA[
+            and check_date<=#{endDate}
+            ]]>
+          </if>
+      </where>
+    </select>
+</mapper>

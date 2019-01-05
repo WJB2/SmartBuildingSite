@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.base.dao.repo.WorkTypeRepo">
+
+    <insert id="addWorkType">
+        insert into sbm_work_type(id, tenant_id, building_developer_id, building_site_id, name, name_pinyin, sort_no)
+        values (#{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId}, #{name}, #{namePinyin}, #{sortNo})
+    </insert>
+
+    <update id="editWorkType">
+        update sbm_work_type  set
+            tenant_id = #{tenantId},
+            building_developer_id = #{buildingDeveloperId},
+            building_site_id = #{buildingSiteId},
+            name = #{name},
+            name_pinyin = #{namePinyin},
+            sort_no =  #{sortNo}
+        where id = #{id}
+    </update>
+
+    <update id="patchEditWorkType">
+        update sbm_work_type
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="buildingDeveloperId != null">
+                building_developer_id = #{buildingDeveloperId},
+            </if>
+            <if test="buildingSiteId != null">
+                building_site_id = #{buildingSiteId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="namePinyin != null">
+                name_pinyin = #{namePinyin},
+            </if>
+            <if test="sortNo != null">
+                sort_no =  #{sortNo}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteWorkTypeById">
+        delete from sbm_work_type where id = #{workTypeId}
+    </delete>
+
+    <resultMap id="workTypeMap" type="com.hozensoft.smartsite.base.domain.WorkType">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="sortNo" column="sort_no"/>
+    </resultMap>
+
+    <select id="loadWorkTypeById" resultMap="workTypeMap">
+        select wk.id as id, wk.tenant_id as tenant_id, wk.building_developer_id as building_developer_id,
+        wk.building_site_id as building_site_id, wk.name as name, wk.name_pinyin as name_pinyin, wk.sort_no as sort_no
+        from sbm_work_type as wk where wk.id = #{workTypeId}
+    </select>
+</mapper>

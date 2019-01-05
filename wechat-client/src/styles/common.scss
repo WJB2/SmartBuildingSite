@@ -1,0 +1,10 @@
+$commonBlue:#0D9947;
+
+@function pxToRem($px){//$px为需要转换的字号
+    @return $px / 20px * 1rem;
+}
+@media screen and (max-width: 300px) {
+    body {
+        background-color:lightblue;
+    }
+}

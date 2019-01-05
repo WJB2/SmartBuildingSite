@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.attence.dao.repo.AttenceDeviceTransferRepo">
+
+    <insert id="addAttenceDeviceTransfer">
+        insert into sbm_attence_device_transfer(id, tenant_id, attence_device_id, original_building_developer_id,
+        original_building_site_id, target_building_developer_id, target_building_site_id, created_by_id,
+        created_org_id, created_time)
+        values ( #{id}, #{tenantId}, #{attenceDeviceId}, #{originalBuildingDeveloperId}, #{originalBuildingSiteId},
+        #{targetBuildingDeveloperId}, #{targetBuildingSiteId}, #{createdById}, #{createdOrgId}, #{createdTime})
+    </insert>
+
+    <update id="editAttenceDeviceTransfer">
+        update sbm_attence_device_transfer set
+          id = #{id},
+          tenant_id = #{tenantId},
+          attence_device_id = #{attenceDeviceId},
+          original_building_developer_id =  #{originalBuildingDeveloperId},
+          original_building_site_id = #{originalBuildingSiteId},
+          target_building_developer_id = #{targetBuildingDeveloperId},
+          target_building_site_id = #{targetBuildingSiteId},
+          created_by_id = #{createdById},
+          created_org_id = #{createdOrgId},
+          created_time = #{createdTime}
+          where id = #{id}
+    </update>
+
+    <update id="patchEditAttenceDeviceTransfer">
+        update sbm_attence_device_transfer
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="attenceDeviceId != null">
+                attence_device_id = #{attenceDeviceId},
+            </if>
+            <if test="originalBuildingDeveloperId != null">
+                original_building_developer_id =  #{originalBuildingDeveloperId},
+            </if>
+            <if test="originalBuildingSiteId != null">
+                original_building_site_id = #{originalBuildingSiteId},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdOrgId != null">
+                created_org_id = #{createdOrgId},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAttenceDeviceTransferById">
+        delete from sbm_attence_device_transfer where id = #{id}
+    </delete>
+
+    <resultMap id="attenceDeviceTransferMap" type="com.hozensoft.smartsite.attence.domain.AttenceDeviceTransfer">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="attenceDeviceId" column="attence_device_id"/>
+        <result property="originalBuildingDeveloperId" column="original_building_developer_id"/>
+        <result property="originalBuildingSiteId" column="original_building_site_id"/>
+        <result property="targetBuildingDeveloperId" column="target_building_developer_id"/>
+        <result property="targetBuildingSiteId" column="target_building_site_id"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="loadAttenceDeviceTransferById">
+        select dev.id, dev.tenant_id, dev.attence_device_id, dev.original_building_developer_id, dev.original_building_site_id,
+        dev.target_building_developer_id, dev.target_building_site_id, dev.created_by_id, dev.created_org_id, dev.created_time
+        from sbm_attence_device_transfer dev  where id = #{attenceDeviceTransferId}
+
+    </select>
+
+</mapper>

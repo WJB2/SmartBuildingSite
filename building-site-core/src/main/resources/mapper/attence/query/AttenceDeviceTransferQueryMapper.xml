@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.attence.dao.query.AttenceDeviceTransferQuery">
+    <resultMap id="attenceDeviceTransferDtoMap" type="com.hozensoft.smartsite.attence.dto.AttenceDeviceTransferDto">
+        <id property ="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="attenceDeviceId" column="attence_device_id"/>
+        <result property="originalBuildingDeveloperId" column="original_building_developer_id"/>
+        <result property="originalBuildingSiteId" column="original_building_site_id"/>
+        <result property="targetBuildingDeveloperId" column="target_building_developer_id"/>
+        <result property="targetBuildingSiteId" column="target_building_site_id"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+    
+    <resultMap id="attenceDeviceTransferItemDtoMap" type="com.hozensoft.smartsite.attence.dto.AttenceDeviceTransferItemDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="attenceDeviceId" column="attence_device_id"/>
+        <result property="originalBuildingDeveloperId" column="original_building_developer_id"/>
+        <result property="originalBuildingSiteId" column="original_building_site_id"/>
+        <result property="targetBuildingDeveloperId" column="target_building_developer_id"/>
+        <result property="targetBuildingSiteId" column="target_building_site_id"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <sql id="selectAttenceDeviceTransferDtoPart">
+        select dev.id as id, dev.tenant_id as tenant_id, dev.attence_device_id as attence_device_id,
+        dev.original_building_developer_id as original_building_developer_id, dev.original_building_site_id as original_building_site_id,
+        dev.target_building_developer_id as target_building_developer_id, dev.target_building_site_id as target_building_site_id,
+        dev.created_by_id as created_by_id, dev.created_org_id as created_org_id, dev.created_time as created_time
+        from sbm_attence_device_transfer as dev
+    </sql>
+
+    <sql id="selectAttenceDeviceTransferItemDtoPart">
+        select dev.id as id, dev.tenant_id as tenant_id, dev.attence_device_id as attence_device_id,
+        dev.original_building_developer_id as original_building_developer_id, dev.original_building_site_id as original_building_site_id,
+        dev.target_building_developer_id as target_building_developer_id, dev.target_building_site_id as target_building_site_id,
+        dev.created_by_id as created_by_id, dev.created_org_id as created_org_id, dev.created_time as created_time
+        from sbm_attence_device_transfer as dev
+    </sql>
+
+    <sql id="whereClause">
+
+    </sql>
+
+    <select id="findAttenceDeviceTransferById" resultMap="attenceDeviceTransferDtoMap">
+        <include refid="selectAttenceDeviceTransferDtoPart"/>
+        where id = #{attenceDeviceTransferId}
+    </select>
+
+    <select id="findAttenceDeviceTransferList" resultMap="attenceDeviceTransferItemDtoMap">
+        <include refid="selectAttenceDeviceTransferItemDtoPart"></include>
+        <include refid="whereClause" />
+    </select>
+</mapper>

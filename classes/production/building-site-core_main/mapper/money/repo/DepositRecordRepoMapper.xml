@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.money.dao.repo.DepositRecordRepo">
+    <insert id="addDepositRecord">
+        insert into sbm_deposit_record(id, tenant_id, building_developer_id, deposit_type, out_credence_id, bank_card_no,
+        init_deposit, deposit, remark, deleted_flag, created_by_id, created_org_id, created_time, updated_by_id, updated_org_id, updated_time,
+        deleted_by_id, deleted_org_id, deleted_time)
+        values (#{id}, #{tenantId}, #{buildingDeveloperId}, #{depositType}, #{outCredenceId}, #{bankCardNo}, #{initDeposit}, #{deposit},
+        #{remark}, #{deletedFlag, jdbcType=NUMERIC}, #{createdById}, #{createdOrgId}, #{createdTime}, #{updatedById}, #{updatedOrgId},
+        #{updatedTime}, #{deletedById}, #{deletedOrgId}, #{deletedTime})
+
+    </insert>
+
+
+</mapper>

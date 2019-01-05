@@ -1,0 +1,15 @@
+{
+    "presets": [
+        "env",
+        "es2015",
+        "stage-1"
+    ],
+    "plugins": [
+        "transform-vue-jsx",
+        ["import",{
+            "libraryName":"vant",
+            "libraryDirectory":"es",
+            "style":true
+        }]
+    ]
+}

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.base.dao.query.BuildingSiteQuery">
+
+    <resultMap id="buildingSiteDtoMap" type="com.hozensoft.smartsite.base.dto.BuildingSiteDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="address" column="address"/>
+        <result property="adminStaffId" column="admin_staff_id"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+        <association property="adminStaff" column="admin_staff_id" javaType="com.hozensoft.system.core.dto.StaffAttrDto">
+            <id property="id" column="admin_staff_id" />
+            <result property="name" column="admin_staff_name" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="username" column="username" />
+        </association>
+        <association property="buildingDeveloper" column="building_developer_id" javaType="com.hozensoft.system.core.dto.OrganizationAttrDto">
+            <id property="id" column="building_developer_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="dev_name" />
+            <result property="code" column="dev_code" />
+        </association>
+    </resultMap>
+
+    <resultMap id="buildingSiteItemDtoMap" type="com.hozensoft.smartsite.base.dto.BuildingSiteItemDto">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="address" column="address"/>
+        <result property="adminStaffId" column="admin_staff_id"/>
+        <result property="deletedFlag" column="deleted_flag" />
+        <association property="adminStaff" column="admin_staff_id" javaType="com.hozensoft.system.core.dto.StaffAttrDto">
+            <id property="id" column="admin_staff_id" />
+            <result property="name" column="admin_staff_name" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="username" column="username" />
+        </association>
+        <association property="buildingDeveloper" column="building_developer_id" javaType="com.hozensoft.system.core.dto.OrganizationAttrDto">
+            <id property="id" column="building_developer_id" />
+            <result property="tenantId" column="tenant_id" />
+            <result property="name" column="dev_name" />
+            <result property="code" column="dev_code" />
+        </association>
+    </resultMap>
+
+    <sql id="selectBuildingSiteDtoPart">
+        select site.id as id, site.tenant_id as tenant_id,  site.building_developer_id as building_developer_id, site.name as name,
+        site.name_pinyin as name_pinyin, site.address as address, site.admin_staff_id as admin_staff_id, site.deleted_flag as deleted_flag,
+        site.created_by_id as created_by_id, site.created_org_id as created_org_id,site.created_time as created_time,
+        site.updated_by_id as updated_by_id, site.updated_org_id as updated_org_id, site.updated_time as updated_time,
+        site.deleted_by_id as deleted_by_id, site.deleted_org_id as deleted_org_id,site.deleted_time as deleted_time,
+        admin.name as admin_staff_name, admin.username as admin_staff_username,
+        dev.name as dev_name, dev.code as dev_code
+        from sbm_building_site site
+        inner join sys_organization dev on site.building_developer_id=dev.id
+        left join sys_staff admin on site.admin_staff_id=admin.id
+    </sql>
+
+    <sql id="selectBuildingSiteItemDtoPart">
+        select site.id as id, site.tenant_id as tenant_id, site.building_developer_id as building_developer_id, site.name as name,
+        site.name_pinyin as name_pinyin,site.address as address, site.admin_staff_id as admin_staff_id, site.deleted_flag as deleted_flag,
+        admin.name as admin_staff_name, admin.username as admin_staff_username,
+        dev.name as dev_name, dev.code as dev_code
+        from sbm_building_site site
+        inner join sys_organization dev on site.building_developer_id=dev.id
+        left join sys_staff admin on site.admin_staff_id=admin.id
+    </sql>
+
+    <sql id="whereClause">
+        <where>
+            <if test="tenantId !=null">
+                site.tenant_id = #{tenantId}
+            </if>
+            <if test="id != null and id.size()>0">
+                and site.id in
+                <foreach collection="id" item="i" separator="," open="(" close=")">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingDeveloperId != null and buildingDeveloperId.size()>0">
+                and site.building_developer_id in
+                <foreach collection="buildingDeveloperId" item="i" separator="," open="(" close=")">
+                    #{i}
+                </foreach>
+            </if>
+            <if test="buildingSiteText!=null and buildingSiteText!=''">
+                and site.name like '%'||#{buildingSiteText}||'%'
+            </if>
+            <if test="deletedFlag!=null">
+                and site.deleted_flag= #{deletedFlag,jdbcType=NUMERIC}
+            </if>
+        </where>
+    </sql>
+
+    <select id="findBuildingSiteById" resultMap="buildingSiteDtoMap">
+        <include refid="selectBuildingSiteDtoPart"></include>
+        where site.id = #{buildingSiteId}
+    </select>
+
+    <select id="findBuildingSiteList" resultMap="buildingSiteItemDtoMap">
+        <include refid="selectBuildingSiteItemDtoPart"></include>
+        <include refid="whereClause" />
+        order by site.deleted_flag asc, site.name asc
+    </select>
+</mapper>

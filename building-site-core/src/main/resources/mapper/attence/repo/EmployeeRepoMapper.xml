@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hozensoft.smartsite.attence.dao.repo.EmployeeRepo">
+
+    <insert id="addEmployee">
+        insert into sbm_employee(id, tenant_id, building_developer_id, building_site_id, code, name,
+        name_pinyin, id_card_no, bank, bank_no, gender, birthday, address, mobile, work_type,
+        register_time, unregistered, unregister_time, deleted_flag, created_by_id,
+        created_org_id, created_time, updated_by_id, updated_org_id, updated_time,
+        deleted_by_id, deleted_org_id, deleted_time)
+        values(
+          #{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId}, #{code}, #{name}, #{namePinyin},
+          #{idCardNo}, #{bank}, #{bankNo}, #{gender}, #{birthday}, #{address}, #{mobile},  #{workType}, #{registerTime},
+          #{unregistered, jdbcType=NUMERIC}, #{unregisterTime}, #{deletedFlag, jdbcType=NUMERIC}, #{createdById}, #{createdOrgId}, #{createdTime},
+          #{updatedById}, #{updatedOrgId}, #{updatedTime}, #{deletedById}, #{deletedOrgId}, #{deletedTime}
+        )
+    </insert>
+
+    <update id="editEmployee">
+        update sbm_employee  set
+            id = #{id},
+            tenant_id = #{tenantId},
+            building_developer_id = #{buildingDeveloperId},
+            building_site_id = #{buildingSiteId},
+            code = #{code},
+            name = #{name},
+            name_pinyin = #{namePinyin},
+            id_card_no = #{idCardNo},
+            bank = #{bank},
+            bank_no = #{bankNo},
+            gender = #{gender},
+            birthday = #{birthday},
+            address = #{address},
+            mobile = #{mobile},
+            work_type = #{workType},
+            register_time = #{registerTime},
+            unregistered = #{unregistered, jdbcType=NUMERIC},
+            unregister_time = #{unregisterTime},
+            deleted_flag = #{deletedFlag, jdbcType=NUMERIC},
+            created_by_Id = #{createdById},
+            created_org_Id = #{createdOrgId},
+            created_time = #{createdTime},
+            updated_by_id = #{updatedById},
+            updated_org_id = #{updatedOrgId},
+            updated_time = #{updatedTime},
+            deleted_by_id = #{deletedById},
+            deleted_org_id = #{deletedOrgId},
+            deleted_time = #{deletedTime}
+        where id = #{id}
+    </update>
+
+    <update id="patchEditEmployee">
+        update sbm_employee
+            <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="buildingDeveloperId != null">
+                building_developer_id = #{buildingDeveloperId},
+            </if>
+            <if test="buildingSiteId != null">
+                building_site_id = #{buildingSiteId},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="namePinyin != null">
+                name_pinyin = #{namePinyin},
+            </if>
+            <if test="idCardNo != null">
+                id_card_no = #{idCardNo},
+            </if>
+            <if test="bank != null">
+                bank = #{bank},
+            </if>
+            <if test="bankNo != null">
+                bank_no = #{bankNo},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+                <if test="workType != null">
+                    work_type = #{workType},
+                </if>
+            <if test="registerTime != null">
+                register_time = #{registerTime},
+            </if>
+            <if test="unregistered != null">
+                unregistered = #{unregistered, jdbcType=NUMERIC},
+            </if>
+            <if test="unregisterTime != null">
+                unregister_time = #{unregisterTime},
+            </if>
+            <if test="deletedFlag != null">
+                deleted_flag = #{deletedFlag, jdbcType=NUMERIC},
+            </if>
+            <if test="createdById != null">
+                created_by_Id = #{createdById},
+            </if>
+            <if test="createdOrgId != null">
+                created_org_Id = #{createdOrgId},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedById != null">
+                updated_by_id = #{updatedById},
+            </if>
+            <if test="updatedOrgId != null">
+                updated_org_id = #{updatedOrgId},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+            <if test="deletedById != null">
+                deleted_by_id = #{deletedById},
+            </if>
+            <if test="deletedOrgId != null">
+                deleted_org_id = #{deletedOrgId},
+            </if>
+            <if test="deletedTime != null">
+                deleted_time = #{deletedTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteEmployeeById">
+        delete from sbm_employee where id = #{id}
+    </delete>
+
+    <resultMap id="employeeMap" type="com.hozensoft.smartsite.attence.domain.Employee">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="namePinyin" column="name_pinyin"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="bank" column="bank"/>
+        <result property="bankNo" column="bank_no"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <result property="mobile" column="mobile"/>
+        <result property="workType" column="work_type"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="unregistered" column="unregistered" />
+        <result property="unregisterTime" column="unregister_time" />
+        <result property="deletedFlag" column="deleted_flag" />
+        <result property="createdById" column="created_by_id" />
+        <result property="createdOrgId" column="created_org_id" />
+        <result property="createdTime" column="created_time" />
+        <result property="updatedById" column="updated_by_id" />
+        <result property="updatedOrgId" column="updated_org_id" />
+        <result property="updatedTime" column="updated_time" />
+        <result property="deletedById" column="deleted_by_id" />
+        <result property="deletedOrgId" column="deleted_org_id" />
+        <result property="deletedTime" column="deleted_time" />
+    </resultMap>
+
+    <select id="loadEmployeeById" resultMap="employeeMap">
+        select emp.id as id, emp.tenant_id as tenant_id, emp.building_developer_id as building_developer_id,
+        emp.building_site_id as building_site_id, emp.code as code, emp.name as name, emp.name_pinyin as name_pinyin,
+        emp.id_card_no as id_card_no, emp.bank as bank, emp.bank_no as bank_no, emp.gender as gender,
+        emp.birthday as birthday, emp.address as address, emp.mobile as mobile, emp.work_type as work_type, emp.register_time as register_time,
+        emp.unregistered as unregistered, emp.unregister_time as unregister_time, emp.deleted_flag as deleted_flag,
+        emp.created_by_id as created_by_id, emp.created_org_id as created_org_id, emp.created_time as created_time,
+        emp.updated_by_id as updated_by_id, emp.updated_org_id as updated_org_id, emp.updated_time as updated_time,
+        emp.deleted_by_id as deleted_by_id, emp.deleted_org_id as deleted_org_id, emp.deleted_time as deleted_time
+        from sbm_employee as emp where emp.id = #{employeeId}
+    </select>
+
+    <select id="loadEmployeeByCode" resultMap="employeeMap">
+        select emp.id as id, emp.tenant_id as tenant_id, emp.building_developer_id as building_developer_id,
+        emp.building_site_id as building_site_id, emp.code as code, emp.name as name, emp.name_pinyin as name_pinyin,
+        emp.id_card_no as id_card_no, emp.bank as bank, emp.bank_no as bank_no, emp.gender as gender,
+        emp.birthday as birthday, emp.address as address, emp.mobile as mobile, emp.work_type as work_type, emp.register_time as register_time,
+        emp.unregistered as unregistered, emp.unregister_time as unregister_time, emp.deleted_flag as deleted_flag,
+        emp.created_by_id as created_by_id, emp.created_org_id as created_org_id, emp.created_time as created_time,
+        emp.updated_by_id as updated_by_id, emp.updated_org_id as updated_org_id, emp.updated_time as updated_time,
+        emp.deleted_by_id as deleted_by_id, emp.deleted_org_id as deleted_org_id, emp.deleted_time as deleted_time
+        from sbm_employee as emp
+        where
+        emp.code = #{employeeCode}
+        and emp.building_site_id = #{buildingSiteId}
+        and emp.building_developer_id = #{buildingDeveloperId}
+        and tenant_id = #{tenantId}
+    </select>
+
+</mapper>

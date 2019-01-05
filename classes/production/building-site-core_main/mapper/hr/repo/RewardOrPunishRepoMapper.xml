@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hozensoft.smartsite.hr.dao.repo.RewardOrPunishRepo">
+    <insert id="addRewardOrPunish">
+        insert into sbm_reward_or_punish(id, tenant_id, building_developer_id, building_site_id,
+         type, name, id_card_no, content, created_by_id, created_org_id, created_time, approved, audit_by_id,
+         audit_org_id, audit_time, audit_remark)
+        values (#{id}, #{tenantId}, #{buildingDeveloperId}, #{buildingSiteId}, #{type}, #{name},
+         #{idCardNo}, #{content}, #{createdById}, #{createdOrgId}, #{createdTime}, #{approved, jdbcType=NUMERIC},
+          #{auditById}, #{auditOrgId} , #{auditTime} , #{auditRemark})
+    </insert>
+
+    <update id="editRewardOrPunish">
+        update sbm_reward_or_punish set
+            id = #{id},
+            tenant_id = #{tenantId},
+            building_developer_id = #{buildingDeveloperId},
+            building_site_id = #{buildingSiteId},
+            type = #{type},
+            name = #{name},
+            id_card_no = #{idCardNo},
+            content = #{content},
+            created_by_id = #{createdById},
+            created_org_id = #{createdOrgId},
+            created_time = #{createdTime},
+            approved = #{approved, jdbcType=NUMERIC},
+            audit_by_id = #{auditById},
+            audit_org_id = #{auditOrgId},
+            audit_time = #{auditTime},
+            audit_remark = #{auditRemark}
+        where id = #{id}
+    </update>
+
+    <update id="patchEditRewardOrPunish">
+        update sbm_reward_or_punish
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="buildingDeveloperId != null">
+                building_developer_id = #{buildingDeveloperId},
+            </if>
+            <if test="buildingSiteId != null">
+                building_site_id = #{buildingSiteId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="idCardNo != null">
+                id_card_no = #{idCardNo},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="createdById != null">
+                created_by_id = #{createdById},
+            </if>
+            <if test="createdOrgId != null">
+                created_org_id = #{createdOrgId},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="approved != null">
+                approved = #{approved, jdbcType=NUMERIC},
+            </if>
+            <if test="auditById != null">
+                audit_by_id = #{auditById},
+            </if>
+            <if test="auditOrgId != null">
+                audit_org_id = #{auditOrgId},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+            <if test="auditRemark != null">
+                audit_remark = #{auditRemark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRewardOrPunishById">
+        delete from sbm_reward_or_punish where id = #{rewardOrPunishId}
+    </delete>
+
+    <resultMap id="rewardOrPunishMap" type="com.hozensoft.smartsite.hr.domain.RewardOrPunish">
+        <id property="id" column="id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="buildingDeveloperId" column="building_developer_id"/>
+        <result property="buildingSiteId" column="building_site_id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="content" column="content "/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="createdOrgId" column="created_org_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="approved" column="approved"/>
+        <result property="auditById" column="audit_by_id"/>
+        <result property="auditOrgId" column="audit_org_id"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="auditRemark" column="audit_remark"/>
+    </resultMap>
+
+    <select id="loadRewardOrPunishById" resultMap="rewardOrPunishMap">
+        select rop.id as id, rop.tenant_id as tenant_id, rop.building_developer_id as building_developer_id,
+         rop.building_site_id as building_site_id, rop.type as type, rop.name as name, rop.id_card_no as id_card_no,
+         rop.content as content, rop.created_by_id as created_by_id, rop.created_org_id as created_org_id,
+         rop.created_time as created_time, rop.approved as approved,rop.audit_by_id as audit_by_id,
+          rop.audit_org_id as audit_org_id , rop.audit_time as audit_time, rop.audit_remark as audit_remark
+        from sbm_reward_or_punish as rop where id = #{rewardOrPunishId} and tenant_id = #{tenantId}
+    </select>
+
+</mapper>

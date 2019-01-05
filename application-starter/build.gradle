@@ -1,0 +1,26 @@
+
+apply plugin: "war"
+
+dependencies {
+
+    compile "com.hozensoft:application-configuration:0.0.1-SNAPSHOT"
+
+    compile "com.hozensoft:application-common:0.0.1-SNAPSHOT"
+
+    compile "com.hozensoft:global-core:0.0.1-SNAPSHOT"
+
+    compile "com.hozensoft:user-core:0.0.1-SNAPSHOT"
+
+    compile "com.hozensoft:system-core:0.0.1-SNAPSHOT"
+
+    compile project(":building-site-core")
+
+    compile project(":wechat-core")
+    
+    providedCompile libraries.sprintBootProvided
+}
+
+
+war {
+    archiveName 'ROOT.war'
+}
