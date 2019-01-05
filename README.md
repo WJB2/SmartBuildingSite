@@ -11,15 +11,18 @@
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+前端：
+1. cd web-client/mobile-client/wechat-client
+2. npm install
+3. yarn start/npm run dev
+
+后端：
+由于本人对java的理解不是特别的足
+只知道通过idea右上角点击运行
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+ 
 
 #### 参与贡献
 
